@@ -12,11 +12,11 @@ def solve(filename='input01.txt'):
     with open(filename, 'r', encoding='utf-8') as entree:
         solution = 0
         ligne = entree.readline()
-        n2 = int(ligne.strip())
+        b = int(ligne.strip())
         while ligne != EOF:
-            n1 = n2
-            n2 = int(ligne.strip())
-            if n2 > n1:
+            a = b
+            b = int(ligne.strip())
+            if b > a:
                 solution += 1
             ligne = entree.readline()
         return solution
