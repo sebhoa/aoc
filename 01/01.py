@@ -33,7 +33,7 @@ def solve_two(filename='input01.txt'):
         while third != EOF:
             a, b, c = x, y, z
             x, y, z = b, c, int(third)
-            if x+y+z > a+b+c:
+            if z > a:  # x+y+z > a+b+c mais x, y c'est pareil que b, c 
                 solution += 1
             third = entree.readline()
         return solution
