@@ -16,24 +16,22 @@ class SubMarine:
         for bit in bits_at_pos:
             bits_count[int(bit)] += 1
         return 0 if bits_count[0] > bits_count[1] else 1
+    
+    def least_common(self, binaries, pos):
+        return 1 - self.most_common(binaries, pos)
 
-    def filtering(self, binaries, pos, oxy_criteria=True):
+    def filtering(self, binaries, pos, criteria):
         if len(binaries) == 1:
             return binaries[0]
-        elif oxy_criteria:
-            bit_criteria = self.most_common(binaries, pos)
-            new_binaries = [value for value in binaries 
-                            if int(value[pos]) == bit_criteria]
-            return self.filtering(new_binaries, pos+1, oxy_criteria)
         else:
-            bit_criteria = 1- self.most_common(binaries, pos)
+            bit_criteria = criteria(binaries, pos)
             new_binaries = [value for value in binaries 
                             if int(value[pos]) == bit_criteria]
-            return self.filtering(new_binaries, pos+1, oxy_criteria)
+            return self.filtering(new_binaries, pos+1, criteria)
 
     def update_rates(self, binaries):
-        self.oxygen = int(self.filtering(binaries, 0), 2)
-        self.co2 = int(self.filtering(binaries, 0, False), 2)
+        self.oxygen = int(self.filtering(binaries, 0, self.most_common), 2)
+        self.co2 = int(self.filtering(binaries, 0, self.least_common), 2)
     
     def life_support(self):
         return self.oxygen * self.co2
