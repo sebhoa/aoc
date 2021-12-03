@@ -25,8 +25,7 @@ class SubMarine:
             return binaries[0]
         else:
             bit_criteria = criteria(binaries, pos)
-            new_binaries = [value for value in binaries 
-                            if int(value[pos]) == bit_criteria]
+            new_binaries = [value for value in binaries if int(value[pos]) == bit_criteria]
             return self.filtering(new_binaries, pos+1, criteria)
 
     def update_rates(self, binaries):
