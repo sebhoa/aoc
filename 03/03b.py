@@ -40,14 +40,11 @@ class Diagnostic:
 
     def __init__(self, filename=FILE):
         self.filename = filename
-        self.numbits = 0
         self.sub = SubMarine()
 
     def all_binaries(self):
         with open(self.filename, 'r', encoding='utf-8') as datas:
-            binaries = [line.strip() for line in datas]
-            self.numbits = len(binaries[0])
-            return binaries
+            return [line.strip() for line in datas]
 
     def solve(self):
         binaries = self.all_binaries()
