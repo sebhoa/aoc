@@ -26,8 +26,6 @@ FILE = 'input08.txt'
 LETTERS = 'abcdefg'
 DIGITS = [set('abcefg'), set('cf'), set('acdeg'), set('acdfg'), set('bcdf'), 
             set('abdfg'), set('abdefg'), set('acf'), set('abcdefg'), set('abcdfg')]
-COUNTS = {2:[set('cf')], 3:[set('acf')], 4:[set('bcfd')], 5:[set('acdeg'), set('acdfg'), set('abdfg')], 
-          6:[set('abcefg'), set('abdefg'), set('abcdfg')], 7:[set('abcdefg')]}
 
 
 class Log:
@@ -36,8 +34,8 @@ class Log:
         self.filename = filename
         self.input = []
         self.output = []
-        self.correspondance = {}
-        self.count = {count:[] for count in COUNTS}
+        self.correspondance = {} # pour décoder
+        self.count = {} # à un nombre de segments associe une liste d'ensembles de segments
 
 
     def load(self):
@@ -49,7 +47,7 @@ class Log:
 
     def reset(self):
         self.correspondance = {}
-        self.count = {count:[] for count in COUNTS}
+        self.count = {count:[] for count in (2,3,4,5,6,7)}
 
 
     def group_by(self, ten_input):
