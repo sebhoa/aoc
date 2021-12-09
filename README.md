@@ -1,7 +1,5 @@
 # Advent Of Code 2021
 
-TEST MODIF
-
 https://adventofcode.com/2021
 
 Je vais voir si j'ai le temps et surtout les idées, parce que de mémoire ça devient vite difficile ce type de challenge :)
@@ -9,3 +7,5 @@ Je vais voir si j'ai le temps et surtout les idées, parce que de mémoire ça d
 C'est avec ce type de challenge que je renouvelle les idées d'exos pour mes étudiants. Mes solutions seront donc toujours très abordables, pas de fonctionnalités avancées.
 
 Visiteur soit indulgent sur la qualité du code :)
+
+Edit : comme prévu, la difficulté augmente avec les jours et pas le temps dont je dispose... pas sûr de pouvoir continuer sur le rythme journalier ;)
