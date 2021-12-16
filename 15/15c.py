@@ -27,27 +27,28 @@ class PathFinder:
         return ((x+dx, y+dy) for dx, dy in DELTAS if self.inside(x+dx, y+dy))
 
     def load(self):
-        small_graph = []
+        self.graph = []
         with open(self.filename, 'r') as datas:
-            for line in datas:
-                small_graph.append([int(e) for e in line.strip()])
-        small_w = len(small_graph[0])
-        small_h = len(small_graph)
+            for y, line in enumerate(datas):
+                small_w = len(line) - 1
+                self.graph.append([])
+                for x, data in enumerate(line.strip()):
+                    self.graph[-1].append(int(data))
+                for dx in range(1, 5):
+                    for x in range(small_w):
+                        increased_val = self.graph[-1][x] + dx
+                        self.graph[-1].append(increased_val if increased_val <= 9 else increased_val - 9)
+            small_h = len(self.graph)
+            self.width = len(self.graph[0])
+            for dy in range(1, 5):
+                for y in range(small_h):
+                    self.graph.append([])
+                    for x in range(self.width):
+                        increased_val = self.graph[y][x] + dy
+                        self.graph[-1].append(increased_val if increased_val <= 9 else increased_val - 9)
+            self.height = len(self.graph)
+            self.end = self.width - 1, self.height - 1
 
-        self.width = 5 * small_w
-        self.height = 5 * small_h
-
-        self.end = self.width - 1, self.height - 1
-
-        for y in range(self.height):
-            self.graph.append([])
-            small_y = y % small_h
-            dy = y // small_h
-            for x in range(self.width):
-                small_x = x % small_w
-                dx = x // small_w
-                val = small_graph[small_y][small_x] + dx + dy
-                self.graph[-1].append(val if val <= 9 else val - 9)
 
     def update_cost(self, n1, n2, heap, nodes_cost, n2_weight):
         """update cost of n2, neighboor of n1"""
@@ -57,8 +58,6 @@ class PathFinder:
             nodes_cost[n2] = new_cost
             heapq.heappush(heap, (new_cost, n2))
 
-    def select_min(self, heap):
-        return
 
     def dijkstra(self):
         to_explore = {self.start: 0}
