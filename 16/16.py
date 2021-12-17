@@ -47,9 +47,15 @@ class Literal(Packet):
 
 class Operator(Packet):
 
-    OP = [sum, lambda t: functools.reduce(lambda x,y: x*y, t, 1),
-        min, max, None, lambda t: 1 if t[0] > t[1] else 0, 
-        lambda t: 1 if t[0] < t[1] else 0, lambda t: 1 if t[0] == t[1] else 0]
+    SUM = sum
+    MUL = lambda t: functools.reduce(lambda x,y: x*y, t, 1)
+    MIN = min
+    MAX = max
+    GREATER = lambda t: 1 if t[0] > t[1] else 0
+    LESSER = lambda t: 1 if t[0] < t[1] else 0
+    EQUAL = lambda t: 1 if t[0] == t[1] else 0
+
+    OP = [SUM, MUL, MIN, MAX, None, GREATER, LESSER, EQUAL]
 
     def __init__(self, *args):
         Packet.__init__(self, *args)
