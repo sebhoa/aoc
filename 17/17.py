@@ -54,8 +54,8 @@ class Mission:
         self.area = (0, 0), (0, 0) # x intervalle, y intervalle
         self.probe = Probe()
         self.nb_steps = -1
-        self.alt_max = 0
-        self.dx, self.dy = 0, 0  # conditions initiales
+        self.alt_max = 0     # pour la partie 1
+        self.velocities = [] # pour la partie 2
 
 
     def load(self):
@@ -64,6 +64,7 @@ class Mission:
             search = re.search(regex, datas.readline())
             self.area = (int(search.group('x0')), int(search.group('x1'))), (int(search.group('y0')), int(search.group('y1')))
 
+    # -- Modélisation
 
     def __str__(self):
         s = ''
@@ -103,7 +104,6 @@ class Mission:
     def max_y(self):
         return self.area[1][1]
 
-
     def end(self):
         x, y = self.probe.x, self.probe.y
         return self.inside(x, y) or self.too_far(x, y)
@@ -117,27 +117,26 @@ class Mission:
             self.nb_steps += 1
         return self.inside(self.probe.x, self.probe.y)
 
-    def set_initial_velocity(self):
-        for n in range(2*self.min_x(), 2*self.max_x()+1):
-            dx = factor(n)
-            if dx is not None:
-                break
-        self.dx = dx       
-        self.dy = abs(self.min_y()) - 1
+
+    # -- Résolution
+
+    def set_intervals_velocity(self):
+        dx_min = int((1 + 3 * math.sqrt(self.min_x())) / 2) + 1
+        dx_max = self.max_x()
+        dy_min = self.min_y()
+        y_max = self.max_y()
+        dy_max = y_max if y_max > 0 else abs(self.min_y()) - 1
+        return dx_min, dx_max, dy_min, dy_max
 
     def solve(self):
-        self.load()
-        self.set_initial_velocity()
-        self.alt_max = self.dy * (self.dy + 1) // 2
+        _, _, _, dy_max = self.set_intervals_velocity()
+        self.alt_max = dy_max * (dy_max + 1) // 2
 
     def solve_two(self):
-        self.solve()
-        nb_solutions = 0
-        for dx in range(self.dx, self.max_x()+1):
-            for dy in range(self.min_y(), self.dy+1):
-                if self.simulate(dx, dy):
-                    nb_solutions += 1
-        return nb_solutions
+        dx_min, dx_max, dy_min, dy_max = self.set_intervals_velocity()
+        self.velocities = [(dx, dy) for dx in range(dx_min, dx_max+1)
+                                        for dy in range(dy_min, dy_max+1)
+                                            if self.simulate(dx, dy)]
 
 
 def main():
@@ -147,11 +146,13 @@ def main():
     else:
         fichier = FILE
     mission = Mission(fichier)
+    mission.load()
     if version == '1':
         mission.solve()
         print(mission.alt_max)
     else:
-        print(transmission.solve_two())
+        mission.solve_two()
+        print(len(mission.velocities))
 
 if __name__ == '__main__':
     main() 
