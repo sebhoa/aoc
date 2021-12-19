@@ -121,11 +121,18 @@ class Mission:
     # -- Résolution
 
     def set_intervals_velocity(self):
-        dx_min = int((1 + 3 * math.sqrt(self.min_x())) / 2) + 1
+        dx_min = int((1 + 3 * math.sqrt(self.min_x())) / 2) - 1
         dx_max = self.max_x()
-        dy_min = self.min_y()
+        y_min = self.min_y()
         y_max = self.max_y()
-        dy_max = y_max if y_max > 0 else abs(self.min_y()) - 1
+
+        if y_min > 0:
+            dy_min = int((1 + 3 * math.sqrt(y_min)) / 2) - 1
+            dy_max = y_max
+        else:
+            dy_min = y_min
+            dy_max = abs(y_min) - 1
+
         return dx_min, dx_max, dy_min, dy_max
 
     def solve(self):
