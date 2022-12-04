@@ -7,14 +7,12 @@ class Puzzle:
         self.id = num
         self.solutions = [None, None, None, None]
         self.tests = [f'{SMALL_NAME}{num:02}a.txt', f'{SMALL_NAME}{num:02}b.txt', f'{BASE_NAME}{num:02}a.txt', f'{BASE_NAME}{num:02}b.txt']
-        
-    def __str_sol(self, solution):
-        return 'NA' if solution is None else solution
-    
+            
     def __str__(self):
+        type_test = ('test', 'test', 'part', 'part')
+        part_test = ('I', 'II', 'I', 'II')
         s = f'Puzzle {self.id:02}\n'
-        s += f'-- test I  : {self.__str_sol(self.solutions[0])}\n'
-        s += f'-- test II : {self.__str_sol(self.solutions[1])}\n'
-        s += f'-- part I  : {self.__str_sol(self.solutions[2])}\n'
-        s += f'-- part II : {self.__str_sol(self.solutions[3])}\n'
+        for i in range(4):
+            s += f'-- {type_test[i]} {part_test[i]:2} : {self.solutions[i]}\n'
         return s
+        
