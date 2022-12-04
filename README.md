@@ -9,6 +9,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 1 : ✅ ✅
 - jour 2 : ✅ ✅
 - jour 3 : ✅ ✅
+- jour 4 : ✅ ✅
 
 
 ### Création du puzzle du jour $k$
