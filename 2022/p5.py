@@ -26,33 +26,24 @@ class P5(Puzzle):
                 to_stack.append(temporary_stack.pop())
     
     def load_datas(self, part):
-        self.instructions = []
-        crates = []
         with open(self.tests[part]) as datas:
-            # phase crates 
-            ligne = datas.readline()
-            while ligne and ligne != '\n':
-                crates.append(ligne)
-                ligne = datas.readline()
+            datas_crates, datas_instructions = [s.split('\n') for s in datas.read().split('\n\n')]
             
-            # phase instructions
-            ligne = datas.readline()
-            while ligne:
-                str_instr = ligne.strip().replace('move','').replace('from', '').replace('to', '')
+            nb_stacks = len(datas_crates.pop().split())
+            self.stacks = [[] for _ in range(nb_stacks)]
+            for i in range(len(datas_crates)-1, -1, -1):
+                stack_id = 0
+                crates = datas_crates[i]
+                for k in range(1, len(crates), 4):
+                    if crates[k] != ' ':
+                        self.stacks[stack_id].append(crates[k])
+                    stack_id += 1
+            
+            self.instructions = []
+            datas_instructions.pop()
+            for instr in datas_instructions:
+                str_instr = instr.strip().replace('move','').replace('from', '').replace('to', '')
                 self.instructions.append(tuple(int(e) for e in str_instr.split()))
-                ligne = datas.readline()
-        
-        # now fill stacks
-        nb_stacks = len(crates.pop().split())
-        self.stacks = [[] for _ in range(nb_stacks)]
-        for i in range(len(crates)-1, -1, -1):
-            stack_id = 0
-            ligne_de_crates = crates[i]
-            for k in range(1, len(ligne_de_crates), 4):
-                crate = ligne_de_crates[k]
-                if crate != ' ':
-                    self.stacks[stack_id].append(crate)
-                stack_id += 1
                 
     def solve(self, part):
         model_of_machine = ('9000', '9001', '9000', '9001')[part]
