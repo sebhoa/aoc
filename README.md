@@ -10,6 +10,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 2 : ✅ ✅
 - jour 3 : ✅ ✅
 - jour 4 : ✅ ✅
+- jour 5 : ✅ ✅ (pénible sans regex)
 
 
 ### Création du puzzle du jour $k$
