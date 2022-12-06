@@ -17,12 +17,18 @@ class P6(Puzzle):
         nb_consecutive_diff = 0
         for i, char in enumerate(self.buffer):
             if char in seen_characters:
+                # Atteindre le premier char à gauche de i
                 while self.buffer[start] != char:
                     seen_characters.discard(self.buffer[start])
                     start += 1                    
+                # le virer ce premier char...
                 start += 1
+                
+                # et les éventuels suivants toujours à gauche de i
                 while start < i and self.buffer[start] == char:
                     start += 1
+                
+                # on remet à jour le nb de caracteres consécutifs différents
                 nb_consecutive_diff = i - start + 1
             else:
                 seen_characters.add(char) 
@@ -34,3 +40,4 @@ class P6(Puzzle):
         self.load_datas(part, filename)
         self.size = (4, 14, 4, 14)[part]
         self.solutions[part] = self.nb_characters()
+        
