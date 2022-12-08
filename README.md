@@ -13,7 +13,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 5 : ✅ ✅ (pénible sans regex)
 - jour 6 : ✅ ✅ 
 - jour 7 : ✅ ✅ (galère parce que je n'ai pas pensé que 2 répertoires pouvaient avoir le même nom)
-- jour 8 : ✅ ✅ 
+- jour 8 : ✅ ✅ (bon je repasse les noms en anglais ^^)
 
 
 ### Création du puzzle du jour $k$
