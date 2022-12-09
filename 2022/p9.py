@@ -61,8 +61,8 @@ class P9(Puzzle):
         self.reset()
         self.load_datas(part, filename)
         if part % 2 == 0:
-            tail = [self.head, self.tail]
+            snake = [self.head, self.tail]
         else:
-            tail = [self.head] + [[self.head[0], self.head[1]] for _ in range(8)] + [self.tail]
-        self.moves(tail)
+            snake = [self.head] + [[self.head[0], self.head[1]] for _ in range(8)] + [self.tail]
+        self.moves(snake)
         self.solutions[part] = len(self.visited)
