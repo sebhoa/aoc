@@ -15,6 +15,8 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 7 : ✅ ✅ (galère parce que je n'ai pas pensé que 2 répertoires pouvaient avoir le même nom)
 - jour 8 : ✅ ✅ (bon je repasse les noms en anglais ^^)
 - jour 9 : ✅ ✅ 
+- jour 10 : ✅ ✅ 
+
 
 ### Création du puzzle du jour $k$
 
