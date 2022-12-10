@@ -5,7 +5,7 @@ class P10(Puzzle):
         self.cycle = 1
         self.register = 1
         self.strength = 0
-        self.crt = [['#'] * 40 for _ in range(7)]
+        self.crt = [['.'] * 40 for _ in range(7)]
         
     def print_crt(self):
         print('\n'.join(''.join(pixel for pixel in self.crt[i]) for i in range(6))) 
@@ -28,12 +28,11 @@ class P10(Puzzle):
 
     def update_crt(self):
         i, j = divmod(self.cycle - 1, 40)
-        if j < self.register or j >= self.register + 3:
-            self.crt[i][j] = '.'        
+        if self.register <= j + 1 < self.register + 3:
+            self.crt[i][j] = '#'        
 
     def execute(self, update_function):
         for instruction in self.instructions:
-            #print(self.cycle)
             if instruction.startswith('noop'):
                 self.cycle += 1
                 update_function()
@@ -49,7 +48,7 @@ class P10(Puzzle):
         self.register = 1
         self.cycle = 1
         self.strength = 0
-        self.crt = [['#'] * 40 for _ in range(7)]
+        self.crt = [['.'] * 40 for _ in range(7)]
         
     def solve(self, part, filename=None):
         self.reset()
@@ -58,7 +57,6 @@ class P10(Puzzle):
             self.execute(self.update_strenght)
             self.solutions[part] = self.strength
         else:
-            self.register -= 1
             self.execute(self.update_crt)
             self.print_crt()
             self.solutions[part] = input()
