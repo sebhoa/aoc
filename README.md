@@ -16,6 +16,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 8 : ✅ ✅ (bon je repasse les noms en anglais ^^)
 - jour 9 : ✅ ✅ 
 - jour 10 : ✅ ✅ 
+- jour 11 : ✅ ❌ (j'ai galéré pour la 2e partie... merci Fab pour l'aide)
 
 
 ### Création du puzzle du jour $k$
