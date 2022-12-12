@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 class P6(Puzzle):
 
     def __init__(self, part):
@@ -37,4 +39,8 @@ class P6(Puzzle):
     def solve(self, filename):
         self.load_datas(filename)
         self.solution = self.nb_characters()
-        
+
+p6one = P6(0)
+p6one.validate()
+p6two = P6(1)
+p6two.validate()

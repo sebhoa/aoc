@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 class P4(Puzzle):
 
     def __init__(self, part):
@@ -20,3 +22,8 @@ class P4(Puzzle):
                 if critere(min_1, max_1, min_2, max_2):
                     nb_paires += 1
         self.solution = nb_paires
+
+p4one = P4(0)
+p4one.validate()
+p4two = P4(1)
+p4two.validate()

@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 TOTAL_SIZE = 70000000
 MIN_SIZE = 30000000
 SEUIL = 100000
@@ -93,3 +95,8 @@ class P7(Puzzle):
         self.size_of('/', self.file_system['/'])
         self.solution = self.sum_small_sizes() if self.part == 0 else self.the_smallest_to_delete()
         print(self)
+
+p7one = P7(0)
+p7one.validate()
+p7two = P7(1)
+p7two.validate()

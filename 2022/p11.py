@@ -1,4 +1,5 @@
 from collections import deque
+from puzzle import Puzzle
 
 class Item:
     """Un item c'est un 'worry level' qui sert pour le mode facile du puzzle et
@@ -125,3 +126,8 @@ class P11(Puzzle):
                 monkey.inspect()
         self.solution = self.business_activity()
         print(self)
+
+p11one = P11(0)
+p11one.validate()
+p11two = P11(1)
+p11two.validate()

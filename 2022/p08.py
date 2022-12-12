@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 NORD = -1, 0
 SUD = 1, 0
 EST = 0, 1
@@ -69,5 +71,8 @@ class P8(Puzzle):
             self.solution = max(self.scenic_score(i, j) for i in range(1, self.height-1) for j in range(1, self.width-1))
         print(self)
     
-    
+p8one = P8(0)
+p8one.validate()
+p8two = P8(1)
+p8two.validate()    
     

@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 class P1(Puzzle):
     
     def __init__(self, part):
@@ -16,3 +18,8 @@ class P1(Puzzle):
             self.solution = energies[0]
         else:
             self.solution = sum(energies[i] for i in range(3))
+
+p1one = P1(0)
+p1one.validate()
+p1two = P1(1)
+p1two.validate()

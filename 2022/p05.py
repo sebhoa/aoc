@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 class P5(Puzzle):
 
     def __init__(self, part):
@@ -54,3 +56,8 @@ class P5(Puzzle):
             self.transfert(nb_crates, from_num-1, to_num-1, model_of_machine)
         msg = ''.join(stack[-1] for stack in self.stacks)
         self.solution = msg
+
+p5one = P5(0)
+p5one.validate()
+p5two = P5(1)
+p5two.validate()

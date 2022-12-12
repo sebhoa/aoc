@@ -1,4 +1,5 @@
 from collections import deque
+from puzzle import Puzzle
 
 NORTH = -1, 0
 SOUTH = 1, 0

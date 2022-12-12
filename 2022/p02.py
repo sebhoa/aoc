@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 PIERRE = 0
 FEUILLE = 1
 CISEAUX = 2
@@ -57,3 +59,7 @@ class P2(Puzzle):
                 score += self.shape_score(mon_coup) + self.result_score(resultat)
         self.solution = score        
             
+p2one = P2(0)
+p2one.validate()
+p2two = P2(1)
+p2two.validate()

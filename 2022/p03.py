@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 class P3(Puzzle):
 
     def __init__(self, part):
@@ -35,3 +37,8 @@ class P3(Puzzle):
             self.solution = self.solve_a(filename)
         else:
             self.solution = self.solve_b(filename)
+
+p3one = P3(0)
+p3one.validate()
+p3two = P3(1)
+p3two.validate()

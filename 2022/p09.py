@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 MOVES = {(i, j): (0, 0) for i in (-1, 0, 1) for j in (-1, 0, 1)}
 MOVES[0, 2] = (0, 1)
 MOVES[0, -2] = (0, -1)
@@ -65,3 +67,8 @@ class P9(Puzzle):
         self.moves(snake)
         self.solution = len(self.visited)
         print(self)
+
+p9one = P9(0)
+p9one.validate()
+p9two = P9(1)
+p9two.validate()

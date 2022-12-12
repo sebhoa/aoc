@@ -1,3 +1,5 @@
+from puzzle import Puzzle
+
 class P10(Puzzle):
 
     def __init__(self, part):
@@ -53,3 +55,8 @@ class P10(Puzzle):
             self.print_crt()
             self.solution = input()
         print(self)
+
+p10one = P10(0)
+p10one.validate()
+p10two = P10(1)
+p10two.validate()
