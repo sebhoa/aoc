@@ -1,88 +1,126 @@
+from collections import deque
+
+class Item:
+    """Un item c'est un 'worry level' qui sert pour le mode facile du puzzle et
+    un dictionnaire de modulos qui sert pour le mode difficile du puzzle
+    l'item est mis à jour grâce une fonction mathématique f (et modulo pour le mode difficile)
+    """
+    
+    def __init__(self, worry_level, puzzle_mode):
+        self.level = worry_level
+        self.modulos = {}
+        self.inspected = self.__modulos_update if puzzle_mode%2 == 1 else self.__level_update
+        
+    def __repr__(self):
+        return f'Item({self.level}, {self.modulos})'
+        
+    def setting(self, div):
+        self.modulos[div] = self.level % div
+        
+    def __modulos_update(self, f):
+        for div, mod in self.modulos.items():
+            self.modulos[div] = f(mod) % div
+
+    def __level_update(self, f):
+        self.level = f(self.level) // 3 
+        
+        
+class Monkey:
+    """Un singe est caractérisé par :
+        - un puzzle
+        - une fonction mathématique f de la forme ax ou x + a ou x^2
+        - un critère de divisibilité caractérisé par un entier div et une fonction de test (2 différentes suivante le mode)
+        - une liste d'items, ou plus exactement de numéros d'items rangés dans une file
+        - deux numéros de singes à qui transmettre l'item traité suivant la validité du test de divisibilité
+    """
+    
+    @classmethod
+    def create_function(cls, f_description):
+        operator = f_description[21]
+        operand = f_description[23:]
+        if operand == 'old':
+            return (lambda a: a + a) if operator == '+' else (lambda a: a * a)
+        else:
+            return (lambda a: a + int(operand)) if operator == '+' else (lambda a: a * int(operand))       
+        
+    def __init__(self, puzzle, part, f_description, div_description, true_description, false_description):
+        self.puzzle = puzzle
+        self.f = Monkey.create_function(f_description)
+        self.div = int(div_description[19:])
+        self.item_ids = deque([])
+        self.true_id = int(true_description[25:])
+        self.false_id = int(false_description[26:])
+        self.activity = 0
+        self.divisibility_test = self.__modulos_div if part%2 == 1 else self.__level_div
+        
+    def __repr__(self):
+        items = [self.puzzle.items[item_id].level for item_id in self.item_ids] 
+        return f'Monkey({items}, {self.div}, {self.true_id}, {self.false_id})'
+        
+    def get_item(self, item_id):
+        self.item_ids.append(item_id)
+
+    def __modulos_div(self, item):
+        return item.modulos[self.div] == 0
+
+    def __level_div(self, item):
+        return item.level % self.div == 0
+    
+    def inspect(self):
+        while len(self.item_ids) > 0:
+            item_id = self.item_ids.popleft()
+            item = self.puzzle.items[item_id]
+            item.inspected(self.f)
+            if self.divisibility_test(item):
+                next_monkey = self.puzzle.monkeys[self.true_id]
+            else:
+                next_monkey = self.puzzle.monkeys[self.false_id]
+            next_monkey.get_item(item_id)
+            self.activity += 1
+
+            
 class P11(Puzzle):
 
     def __init__(self):
         Puzzle.__init__(self, 11)
-        self.f = []        # les fonctions de calcul
-        self.div = []      # les diviseur pour le critère de divisibilité
-        self.worries = []  # la liste des worry level associé au numéro du singe 
-        self.suivants = [] # les numéros des singes où l'item sera transféré
-        self.diviseur = None # le diviseur global, 3 ou 1
-        self.nb_monkeys = 0  # le nombre de singes
-        self.activities = [] # le récap de l'activité de chaque singe
+        self.monkeys = []
+        self.items = []
+        self.nb_rounds = 20
         
     def load_datas(self, part, filename=None):
         if filename is None:
             filename = self.tests[part]
         with open(filename) as datas:
-            for pid, monkey_infos in enumerate(datas.read().strip().split('\n\n')):
-                _, s_items, ope, div, true, false = monkey_infos.split('\n')
-                self.set_fonctions(ope.strip())
-                self.set_div(div.strip())
-                self.set_worries(s_items.strip(), pid)
-                self.set_suivants(true.strip(), false.strip())
-                self.activities.append(0)
-            self.nb_monkeys = pid+1
-        if self.diviseur == 1: 
-            for i in range(len(self.worries)):
-                w, wid = self.worries[i]
-                d = {div: w%div for div in self.div}
-                self.worries[i] = [d, wid]
-
-    def set_suivants(self, true, false):
-        self.suivants.append((int(false[26:]), int(true[25:])))
-    
-    def set_div(self, div):
-        self.div.append(int(div[19:]))
-    
-    def set_worries(self, items, pid):
-        self.worries.extend([int(e), pid] for e in items[16:].split(', '))
-    
-    def set_fonctions(self, operation):
-        operator = operation[21]
-        operand = operation[23:]
-        if operand == 'old':
-            if operator == '+':
-                self.f.append(lambda a: (a + a))
-            else:
-                self.f.append(lambda a: (a * a))
-        else:
-            if operator == '+':
-                self.f.append(lambda a: (a + int(operand)))
-            else:
-                self.f.append(lambda a: (a * int(operand)))       
+            item_id = 0
+            for monkey_infos in datas.read().strip().split('\n\n'):
+                _, items_description, f_description, div_description, true_description, false_description = monkey_infos.split('\n')
+                monkey = Monkey(self, part, f_description.strip(), div_description.strip(), true_description.strip(), false_description.strip())
+                for level in items_description.strip()[16:].split(', '):
+                    self.items.append(Item(int(level), part))
+                    monkey.get_item(item_id)
+                    item_id += 1
+                self.monkeys.append(monkey)
+        if part%2 != 0:
+            self.nb_rounds = 10000
+            self.set_modulos()
         
-    def update_one(self, info):
-        lvl, pid = info
-        info[0] = self.f[pid](lvl) // 3
-        is_divisible = info[0] % self.div[pid] == 0
-        info[1] = self.suivants[pid][is_divisible]
-
-    def update_two(self, info):
-        d_worry, pid = info
-        for k in d_worry:
-            d_worry[k] = self.f[pid](d_worry[k]) % k 
-        is_divisible = d_worry[self.div[pid]] == 0
-        info[1] = self.suivants[pid][is_divisible]
-        
-    def round(self):
-        for pid in range(self.nb_monkeys):
-            for i in range(len(self.worries)):
-                worry_id = self.worries[i][1]
-                if worry_id == pid:
-                    self.activities[pid] += 1
-                    if self.diviseur == 3:
-                        self.update_one(self.worries[i])
-                    else:
-                        self.update_two(self.worries[i])
-                    
-                            
-    def business_lvl(self):
-        self.activities.sort(reverse=True)
-        return self.activities[0] * self.activities[1] 
-        
+    def set_modulos(self):
+        for item in self.items:
+            for monkey in self.monkeys:
+                item.setting(monkey.div)
+                
+    def reset(self):
+        self.monkeys = []
+        self.items = []
+    
+    def business_activity(self):
+        activities = sorted((m.activity for m in self.monkeys), reverse=True)
+        return activities[0] * activities[1]
+    
     def solve(self, part, filename=None):
-        nb_rounds, self.diviseur = (20, 3) if part % 2 == 0 else (10000, 1)
+        self.reset()
         self.load_datas(part, filename)
-        for rnd in range(nb_rounds):
-            self.round()
-        self.solutions[part] = self.business_lvl()
+        for _ in range(self.nb_rounds):
+            for monkey in self.monkeys:
+                monkey.inspect()
+        self.solutions[part] = self.business_activity()
