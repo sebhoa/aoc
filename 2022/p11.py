@@ -34,18 +34,10 @@ class Monkey:
         - deux numéros de singes à qui transmettre l'item traité suivant la validité du test de divisibilité
     """
     
-    @classmethod
-    def create_function(cls, f_description):
-        operator = f_description[21]
-        operand = f_description[23:]
-        if operand == 'old':
-            return (lambda a: a + a) if operator == '+' else (lambda a: a * a)
-        else:
-            return (lambda a: a + int(operand)) if operator == '+' else (lambda a: a * int(operand))       
         
-    def __init__(self, puzzle, part, f_description, div_description, true_description, false_description):
+    def __init__(self, puzzle, part, mathematical_function, div_description, true_description, false_description):
         self.puzzle = puzzle
-        self.f = Monkey.create_function(f_description)
+        self.f = mathematical_function
         self.div = int(div_description[19:])
         self.item_ids = deque([])
         self.true_id = int(true_description[25:])
@@ -81,6 +73,15 @@ class Monkey:
             
 class P11(Puzzle):
 
+    @classmethod
+    def create_function(cls, f_description):
+        operator = f_description[21]
+        operand = f_description[23:]
+        if operand == 'old':
+            return (lambda a: a + a) if operator == '+' else (lambda a: a * a)
+        else:
+            return (lambda a: a + int(operand)) if operator == '+' else (lambda a: a * int(operand))       
+    
     def __init__(self):
         Puzzle.__init__(self, 11)
         self.monkeys = []
@@ -94,7 +95,8 @@ class P11(Puzzle):
             item_id = 0
             for monkey_infos in datas.read().strip().split('\n\n'):
                 _, items_description, f_description, div_description, true_description, false_description = monkey_infos.split('\n')
-                monkey = Monkey(self, part, f_description.strip(), div_description.strip(), true_description.strip(), false_description.strip())
+                mathematical_function = P11.create_function(f_description.strip())
+                monkey = Monkey(self, part, mathematical_function, div_description.strip(), true_description.strip(), false_description.strip())
                 for level in items_description.strip()[16:].split(', '):
                     self.items.append(Item(int(level), part))
                     monkey.get_item(item_id)
