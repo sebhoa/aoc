@@ -12,28 +12,26 @@ class PathFinder:
     tous les plus courts chemins jusqu'à tomber sur un point 'a'
     """
     
-    def __init__(self, puzzle, heuristic):
+    def __init__(self, puzzle):
         self.puzzle = puzzle
-        self.start = puzzle.start
-        self.end = puzzle.end
-        self.__cout = {self.start: 0}
-        self.pred = {self.start: None}
+        self.__cost = {puzzle.start: 0}
+        self.pred = {puzzle.start: None}
         self.closed = set()
-        self.opened = {self.start}
-        self.last = self.start
+        self.opened = {puzzle.start}
+        self.last = puzzle.start
         self.heuristic = puzzle.heuristic if not self.puzzle.reverse else (lambda x: 0)
 
     def finished(self):
         if self.puzzle.reverse:
             return self.puzzle.altitude(self.last) == 0
         else:
-            return self.end in self.closed
+            return self.puzzle.end in self.closed
     
-    def cout(self, node):
-        return self.__cout.get(node, INF)
+    def cost(self, node):
+        return self.__cost.get(node, INF)
     
     def estimation(self, node):
-        return self.cout(node) + self.heuristic(node)
+        return self.cost(node) + self.heuristic(node)
     
     def select_node(self):
         best = min(self.opened, key=self.estimation)
@@ -44,30 +42,18 @@ class PathFinder:
     def update(self):
         for s in self.puzzle.neighbors(self.last):
             if s not in self.closed:
-                cout = self.cout(self.last) + 1
-                if self.cout(s) > cout:
-                    self.__cout[s] = cout
+                cost = self.cost(self.last) + 1
+                if self.cost(s) > cost:
+                    self.__cost[s] = cost
                     self.pred[s] = self.last
                     self.opened.add(s)
 
-    def solve(self):
+    def solution(self):
         while not self.finished():
             node = self.select_node()
             self.update()
+        return self.cost(self.last)
             
-    def path(self):
-        res = [self.last]
-        pred = self.pred[res[-1]] 
-        while pred is not None:
-            res.append(pred)
-            pred = self.pred[res[-1]]
-        res.reverse()
-        return res
-    
-    def cost(self):
-        return self.cout(self.last)
-    
-    
 
 class P12(Puzzle):
 
@@ -85,10 +71,8 @@ class P12(Puzzle):
         return point == self.start
 
     def is_end(self, i, j):
-        if self.reverse:
-            return self.grid[i][j] == 'a'
-        else:
-            return self.grid[i][j] == 'E'
+        end_mark = 'a' if self.reverse else 'E'
+        return self.grid[i][j] == end_mark
 
     def inside(self, i, j):
         return 0 <= i < self.height and 0 <= j < self.width
@@ -125,7 +109,7 @@ class P12(Puzzle):
                     self.grid[i].append(alt)
             self.height = len(self.grid)
             self.width = len(self.grid[0])
-            self.solver = PathFinder(self, self.heuristic)
+            self.solver = PathFinder(self)
     
     def reset(self):
         self.grid = []
@@ -136,6 +120,4 @@ class P12(Puzzle):
     def solve(self, filename=None):
         self.reset()
         self.load_datas(filename)
-        self.solver.solve()
-        self.solution = len(self.solver.path()) - 1
-        print(self)
+        self.solution = self.solver.solution()
