@@ -1,3 +1,5 @@
+from collections import deque
+
 NORTH = -1, 0
 SOUTH = 1, 0
 EAST = 0, 1
