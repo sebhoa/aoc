@@ -1,13 +1,11 @@
 class P6(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 6)
+    def __init__(self, part):
+        Puzzle.__init__(self, 6, part)
         self.buffer = ''
-        self.size = 0
+        self.size = 4 if part == 0 else 14
         
-    def load_datas(self, part, filename):
-        if filename is None:
-            filename = self.tests[part]
+    def load_datas(self, filename):
         with open(filename) as datas:
             self.buffer = datas.readline().strip()
         
@@ -36,8 +34,7 @@ class P6(Puzzle):
                 if nb_consecutive_diff >= self.size:
                     return i + 1
         
-    def solve(self, part, filename=None):
-        self.load_datas(part, filename)
-        self.size = (4, 14, 4, 14)[part]
-        self.solutions[part] = self.nb_characters()
+    def solve(self, filename):
+        self.load_datas(filename)
+        self.solution = self.nb_characters()
         

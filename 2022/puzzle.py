@@ -1,18 +1,30 @@
-BASE_NAME = 'input'
-SMALL_NAME = 'small'
-
 class Puzzle:
+    """Un puzzle c'est une id (entre 1 et 25), une part 0 (part one) ou 1 (part two)
+    une solution un petit fichier de test et un gros fichier"""
     
-    def __init__(self, num):
+    def __init__(self, num, part):
         self.id = num
-        self.solutions = [None, None, None, None]
-        self.tests = [f'{SMALL_NAME}{num:02}a.txt', f'{SMALL_NAME}{num:02}b.txt', f'{BASE_NAME}{num:02}a.txt', f'{BASE_NAME}{num:02}b.txt']
-            
+        self.part = part
+        self.solution = None
+        self.test_in = f'{num:02}_small.txt'
+        self.validation_in = f'{num:02}_big.txt'
+        
+    def solve(self, filename):
+        """Chaque puzzle doit coder sa méthode de résolution"""
+        pass
+    
+    def test(self):
+        """Teste la résolution sur le petit fichier"""
+        self.solve(self.test_in)
+        
+    def validate(self):
+        """Valide la solution sur le gros fichier"""
+        self.solve(self.validation_in)
+    
     def __str__(self):
-        type_test = ('test', 'test', 'part', 'part')
-        part_test = ('I', 'II', 'I', 'II')
+        part_test = ('One', 'Two')[self.part]
         s = f'Puzzle {self.id:02}\n'
-        for i in range(4):
-            s += f'-- {type_test[i]} {part_test[i]:2} : {self.solutions[i]}\n'
+        s += f'-- Part {part_test}\n'
+        s += f'-- Solution: {self.solution}\n'
         return s
         

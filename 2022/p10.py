@@ -1,24 +1,16 @@
 class P10(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 10)
+    def __init__(self, part):
+        Puzzle.__init__(self, 10, part)
         self.cycle = 1
         self.register = 1
         self.strength = 0
-        self.crt = [['.'] * 40 for _ in range(7)]
+        self.crt = [['.'] * 40 for _ in range(6)]
         
     def print_crt(self):
         print('\n'.join(''.join(pixel for pixel in self.crt[i]) for i in range(6))) 
-        
-    def add_cycle_1(self, value):
-        self.cycle += 1
-        
-    def noop(self):
-        self.cycle += 1
-     
-    def load_datas(self, part, filename=None):
-        if filename is None:
-            filename = self.tests[part]
+             
+    def load_datas(self, filename):
         with open(filename) as datas:
             self.instructions = datas.read().strip().split('\n')
 
@@ -48,15 +40,16 @@ class P10(Puzzle):
         self.register = 1
         self.cycle = 1
         self.strength = 0
-        self.crt = [['.'] * 40 for _ in range(7)]
+        self.crt = [['.'] * 40 for _ in range(6)]
         
-    def solve(self, part, filename=None):
+    def solve(self, filename):
         self.reset()
-        self.load_datas(part, filename)
-        if part % 2 == 0:
+        self.load_datas(filename)
+        if self.part == 0:
             self.execute(self.update_strenght)
-            self.solutions[part] = self.strength
+            self.solution = self.strength
         else:
             self.execute(self.update_crt)
             self.print_crt()
-            self.solutions[part] = input()
+            self.solution = input()
+        print(self)

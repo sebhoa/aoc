@@ -1,7 +1,7 @@
 class P3(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 3)
+    def __init__(self, part):
+        Puzzle.__init__(self, 3, part)
         
     def priorite_lettre(self, lettre):
         code = ord(lettre)
@@ -9,18 +9,18 @@ class P3(Puzzle):
         code_A = ord('A')
         return code - code_A + 27 if code < code_a else code - code_a + 1
                     
-    def solve_a(self, part):
+    def solve_a(self, filename):
         total = 0
-        with open(self.tests[part]) as datas:
+        with open(filename) as datas:
             for ligne in datas:
                 m = len(ligne) // 2
                 s = set(ligne[:m]) & set(ligne[m:-1])
                 total += self.priorite_lettre(s.pop())
-        self.solutions[part] = total
+        return total
         
-    def solve_b(self, part):
+    def solve_b(self, filename):
         total = 0
-        with open(self.tests[part]) as datas:
+        with open(filename) as datas:
             ligne = datas.readline()
             while ligne:
                 s = set(ligne.strip())
@@ -28,10 +28,10 @@ class P3(Puzzle):
                     s = s & set(datas.readline().strip())
                 total += self.priorite_lettre(s.pop())
                 ligne = datas.readline()
-        self.solutions[part] = total
+        return total
     
-    def solve(self, part):
-        if part % 2 == 0:
-            self.solve_a(part)
+    def solve(self, filename):
+        if self.part == 0:
+            self.solution = self.solve_a(filename)
         else:
-            self.solve_b(part)
+            self.solution = self.solve_b(filename)

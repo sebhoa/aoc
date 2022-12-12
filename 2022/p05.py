@@ -1,7 +1,7 @@
 class P5(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 5)
+    def __init__(self, part):
+        Puzzle.__init__(self, 5, part)
         self.stacks = []
         self.instructions = []
         
@@ -25,8 +25,9 @@ class P5(Puzzle):
             for _ in range(nb_crates):
                 to_stack.append(temporary_stack.pop())
     
-    def load_datas(self, part):
-        with open(self.tests[part]) as datas:
+                
+    def load_datas(self, filename):
+        with open(filename) as datas:
             datas_crates, datas_instructions = [s.split('\n') for s in datas.read().split('\n\n')]
             
             nb_stacks = len(datas_crates.pop().split())
@@ -44,11 +45,12 @@ class P5(Puzzle):
             for instr in datas_instructions:
                 str_instr = instr.strip().replace('move','').replace('from', '').replace('to', '')
                 self.instructions.append(tuple(int(e) for e in str_instr.split()))
+              
                 
-    def solve(self, part):
-        model_of_machine = ('9000', '9001', '9000', '9001')[part]
-        self.load_datas(part)
+    def solve(self, filename):
+        model_of_machine = '9000' if self.part == 0 else '9001'
+        self.load_datas(filename)
         for (nb_crates, from_num, to_num) in self.instructions:
             self.transfert(nb_crates, from_num-1, to_num-1, model_of_machine)
         msg = ''.join(stack[-1] for stack in self.stacks)
-        self.solutions[part] = msg
+        self.solution = msg

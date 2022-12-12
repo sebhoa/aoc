@@ -9,7 +9,7 @@ class Item:
     def __init__(self, worry_level, puzzle_mode):
         self.level = worry_level
         self.modulos = {}
-        self.inspected = self.__modulos_update if puzzle_mode%2 == 1 else self.__level_update
+        self.inspected = self.__modulos_update if puzzle_mode == 1 else self.__level_update
         
     def __repr__(self):
         return f'Item({self.level}, {self.modulos})'
@@ -35,7 +35,7 @@ class Monkey:
     """
     
         
-    def __init__(self, puzzle, part, mathematical_function, div_description, true_description, false_description):
+    def __init__(self, puzzle, mathematical_function, div_description, true_description, false_description):
         self.puzzle = puzzle
         self.f = mathematical_function
         self.div = int(div_description[19:])
@@ -43,7 +43,7 @@ class Monkey:
         self.true_id = int(true_description[25:])
         self.false_id = int(false_description[26:])
         self.activity = 0
-        self.divisibility_test = self.__modulos_div if part%2 == 1 else self.__level_div
+        self.divisibility_test = self.__modulos_div if puzzle.part == 1 else self.__level_div
         
     def __repr__(self):
         items = [self.puzzle.items[item_id].level for item_id in self.item_ids] 
@@ -82,27 +82,25 @@ class P11(Puzzle):
         else:
             return (lambda a: a + int(operand)) if operator == '+' else (lambda a: a * int(operand))       
     
-    def __init__(self):
-        Puzzle.__init__(self, 11)
+    def __init__(self, part):
+        Puzzle.__init__(self, 11, part)
         self.monkeys = []
         self.items = []
-        self.nb_rounds = 20
+        self.nb_rounds = 20 
         
-    def load_datas(self, part, filename=None):
-        if filename is None:
-            filename = self.tests[part]
+    def load_datas(self, filename):
         with open(filename) as datas:
             item_id = 0
             for monkey_infos in datas.read().strip().split('\n\n'):
                 _, items_description, f_description, div_description, true_description, false_description = monkey_infos.split('\n')
                 mathematical_function = P11.create_function(f_description.strip())
-                monkey = Monkey(self, part, mathematical_function, div_description.strip(), true_description.strip(), false_description.strip())
+                monkey = Monkey(self, mathematical_function, div_description.strip(), true_description.strip(), false_description.strip())
                 for level in items_description.strip()[16:].split(', '):
-                    self.items.append(Item(int(level), part))
+                    self.items.append(Item(int(level), self.part))
                     monkey.get_item(item_id)
                     item_id += 1
                 self.monkeys.append(monkey)
-        if part%2 != 0:
+        if self.part != 0:
             self.nb_rounds = 10000
             self.set_modulos()
         
@@ -119,10 +117,11 @@ class P11(Puzzle):
         activities = sorted((m.activity for m in self.monkeys), reverse=True)
         return activities[0] * activities[1]
     
-    def solve(self, part, filename=None):
+    def solve(self, filename):
         self.reset()
-        self.load_datas(part, filename)
+        self.load_datas(filename)
         for _ in range(self.nb_rounds):
             for monkey in self.monkeys:
                 monkey.inspect()
-        self.solutions[part] = self.business_activity()
+        self.solution = self.business_activity()
+        print(self)

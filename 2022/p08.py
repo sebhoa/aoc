@@ -7,15 +7,13 @@ DIRECTIONS = NORD, EST, SUD, OUEST
 
 class P8(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 8)
+    def __init__(self, part):
+        Puzzle.__init__(self, 8, part)
         self.grid = []
         self.height = 0
         self.width = 0
         
-    def load_datas(self, part, filename=None):
-        if filename is None:
-            filename = self.tests[part]
+    def load_datas(self, filename):
         with open(filename) as datas:
             self.grid = [[int(e) for e in line.strip()] for line in datas]
         self.height = len(self.grid)
@@ -27,8 +25,6 @@ class P8(Puzzle):
     def on_edge(self, i, j):
         return i == 0 or i == self.height - 1 or j == 0 or j == self.width - 1
     
-    # Part One ---
-
     def neighbors(self, i, j, direction):
         """Un itérateur sur les voisins de i, j dans la direction donnée, en restant dans la zone"""
         di, dj = direction
@@ -43,12 +39,7 @@ class P8(Puzzle):
             if self.grid[i][j] >= self.grid[i0][j0]:
                 return False
         return True
-
-    def visible(self, i, j):
-        return self.on_edge(i, j) or any(self.visible_from(i, j, d) for d in DIRECTIONS)
-
-    # Part Two ---
-
+        
     def on_direction_scenic_score(self, i0, j0, direction):
         """Calcule la valeur scénique de la case intérieure i0, j0 dans une direction donnée"""
         di, dj = direction
@@ -61,21 +52,22 @@ class P8(Puzzle):
             scenic_score -= 1
         return scenic_score
         
+    def visible(self, i, j):
+        return self.on_edge(i, j) or any(self.visible_from(i, j, d) for d in DIRECTIONS)
+
     def scenic_score(self, i, j):
         prod = 1
         for d in DIRECTIONS:
             prod *= self.on_direction_scenic_score(i, j, d)
         return prod
             
-    # Solve --- 
-    
-    def solve(self, part, filename=None):
-        self.load_datas(part, filename)
-        if part % 2 == 0:
-            self.solutions[part] = sum(self.visible(i, j) for i in range(self.height) for j in range(self.width))
+    def solve(self, filename):
+        self.load_datas(filename)
+        if self.part == 0:
+            self.solution = sum(self.visible(i, j) for i in range(self.height) for j in range(self.width))
         else:
-            self.solutions[part] = max(self.scenic_score(i, j) for i in range(1, self.height-1) for j in range(1, self.width-1))
-    
+            self.solution = max(self.scenic_score(i, j) for i in range(1, self.height-1) for j in range(1, self.width-1))
+        print(self)
     
     
     

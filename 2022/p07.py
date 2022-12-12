@@ -4,8 +4,8 @@ SEUIL = 100000
 
 class P7(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 7)
+    def __init__(self, part):
+        Puzzle.__init__(self, 7, part)
         self.file_system = {}
         self.path = []
         self.directory_size = {}
@@ -48,10 +48,8 @@ class P7(Puzzle):
             self.file_system[parent_name][child_name] = int(size)
             
     
-    def load_datas(self, part, filename):
+    def load_datas(self, filename):
         """Met à jour le file_system ie le listing des repertoires et leur contenu"""
-        if filename is None:
-            filename = self.tests[part]
         with open(filename) as datas:
             for cmd in datas:
                 if cmd.startswith('$'):
@@ -89,9 +87,9 @@ class P7(Puzzle):
         self.path = []
         self.directory_size = {}
     
-    def solve(self, part, filename=None):
-        fonction = (self.sum_small_sizes, self.the_smallest_to_delete, self.sum_small_sizes, self.the_smallest_to_delete)[part]
+    def solve(self, filename):
         self.reset()
-        self.load_datas(part, filename)
+        self.load_datas(filename)
         self.size_of('/', self.file_system['/'])
-        self.solutions[part] = fonction()
+        self.solution = self.sum_small_sizes() if self.part == 0 else self.the_smallest_to_delete()
+        print(self)

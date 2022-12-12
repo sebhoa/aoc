@@ -12,8 +12,8 @@ DIRECTIONS = {'R': (0, 1), 'U': (-1, 0), 'L': (0, -1), 'D': (1, 0)}
 
 class P9(Puzzle):
 
-    def __init__(self):
-        Puzzle.__init__(self, 9)
+    def __init__(self, part):
+        Puzzle.__init__(self, 9, part)
         self.visited = set()
         self.instructions = []
         self.head = [0, 0]
@@ -29,7 +29,7 @@ class P9(Puzzle):
         di, dj = direction
         point[0] += di
         point[1] += dj
-        
+                
     def delta(self, a, b):
         """Calcule le delta de déplacement entre le point de départ a et celui d'arrivée b"""
         return b[0] - a[0], b[1] - a[1]
@@ -50,19 +50,18 @@ class P9(Puzzle):
             
                 self.visited.add(tuple(self.tail))
         
-    def load_datas(self, part, filename=None):
-        if filename is None:
-            filename = self.tests[part]
+    def load_datas(self, filename):
         with open(filename) as datas:
             self.instructions = datas.read().strip().split('\n')
 
         
-    def solve(self, part, filename=None):
+    def solve(self, filename):
         self.reset()
-        self.load_datas(part, filename)
-        if part % 2 == 0:
+        self.load_datas(filename)
+        if self.part == 0:
             snake = [self.head, self.tail]
         else:
             snake = [self.head] + [[self.head[0], self.head[1]] for _ in range(8)] + [self.tail]
         self.moves(snake)
-        self.solutions[part] = len(self.visited)
+        self.solution = len(self.visited)
+        print(self)
