@@ -59,7 +59,7 @@ class P13(Puzzle):
                 self.packets.append(Packet(right))
 
     def insert(self, divider):
-        """insérer le paquet divider dans la liste self.packets triée et
+        """insère le paquet divider dans la liste self.packets triée et
         renvoie la position d'insertion
         """
         packets = self.packets
@@ -71,6 +71,11 @@ class P13(Puzzle):
         packets[i] = divider
         return i
 
+    def where_to_insert(self, divider):
+        for i, packet in self.enumerate(self.packets):
+            if divider < packet:
+                return i 
+
     def solve(self, filename):
         self.packets = []
         self.load_datas(filename)
@@ -81,8 +86,10 @@ class P13(Puzzle):
                     self.solution += (i//2) + 1
         else:
             self.packets.sort()
-            index_1 = self.insert(Packet('[[2]]')) + 1  # puzzle need index begins at 1 not 0
-            index_2 = self.insert(Packet('[[6]]')) + 1
+            #index_1 = self.insert(Packet('[[2]]')) + 1  # puzzle need index begins at 1 not 0
+            #index_2 = self.insert(Packet('[[6]]')) + 1
+            index_1 = self.where_to_insert(Packet('[[2]]'))
+            index_2 = self.where_to_insert(Packet('[[6]]')) + 1 # pour tenir compte de l'insertion virtuelle de [[2]]
             self.solution = index_1 * index_2
 
 
