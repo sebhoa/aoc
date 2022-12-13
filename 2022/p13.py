@@ -34,12 +34,12 @@ class Packet:
         if isinstance(arg_2, int):
             arg_2 = [arg_2]
         # here arg_1 and arg_2 are lists
-        length_1, length_2 = len(arg_1), len(arg_2)
-        for i in range(min(length_1, length_2)):
+        lenght_1, lenght_2 = len(arg_1), len(arg_2)
+        for i in range(min(lenght_1, lenght_2)):
             answer = self.__cmp_content(arg_1[i], arg_2[i])
             if answer != 0:
                 return answer
-        return cmp_int(length_1, length_2)
+        return cmp_int(lenght_1, lenght_2)
 
     def __lt__(self, packet):
         return self.__cmp_content(self.content, packet.content) == SMALLER
@@ -58,21 +58,8 @@ class P13(Puzzle):
                 self.packets.append(Packet(left))
                 self.packets.append(Packet(right))
 
-    def insert(self, divider):
-        """insère le paquet divider dans la liste self.packets triée et
-        renvoie la position d'insertion
-        """
-        packets = self.packets
-        packets.append(divider)
-        i = len(packets) - 1
-        while i > 0 and divider < packets[i-1]:
-            packets[i] = packets[i-1]
-            i -= 1
-        packets[i] = divider
-        return i
-
     def where_to_insert(self, divider):
-        for i, packet in self.enumerate(self.packets):
+        for i, packet in enumerate(self.packets):
             if divider < packet:
                 return i 
 
@@ -86,12 +73,9 @@ class P13(Puzzle):
                     self.solution += (i//2) + 1
         else:
             self.packets.sort()
-            #index_1 = self.insert(Packet('[[2]]')) + 1  # puzzle need index begins at 1 not 0
-            #index_2 = self.insert(Packet('[[6]]')) + 1
-            index_1 = self.where_to_insert(Packet('[[2]]'))
-            index_2 = self.where_to_insert(Packet('[[6]]')) + 1 # pour tenir compte de l'insertion virtuelle de [[2]]
+            index_1 = self.where_to_insert(Packet('[[2]]')) + 1 # les positions puzzle commencent à 1 pas à 0
+            index_2 = self.where_to_insert(Packet('[[6]]')) + 2 # pour tenir compte de l'insertion virtuelle de [[2]]
             self.solution = index_1 * index_2
-
 
 # -- MAIN
 
