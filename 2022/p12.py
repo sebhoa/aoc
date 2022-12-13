@@ -9,6 +9,9 @@ WEST = 0, -1
 DIRECTIONS = NORTH, EAST, SOUTH, WEST
 INF = float('inf')
         
+ALT_MAX = 25
+ALT_MIN = 0
+
 class P12(Puzzle):
 
     def __init__(self, part):
@@ -23,31 +26,38 @@ class P12(Puzzle):
 
     def exit(self, node):
         if self.reverse:
-            return self.altitude(node) == 0
+            return self.altitude(node) == ALT_MIN
         else:
             return node == self.end
 
-    def is_end(self, i, j):
+    def is_end(self, node):
+        i, j = node
         end_mark = 'a' if self.reverse else 'E'
         return self.grid[i][j] == end_mark
+
+    def is_start(self, node):
+        return node == self.start
 
     def inside(self, i, j):
         return 0 <= i < self.height and 0 <= j < self.width
     
-    def altitude(self, point):
-        i, j = point
+    def ascii_code(self, node):
+        i, j = node
+        return ord(self.grid[i][j]) - ord('a')
+
+    def altitude(self, node):
         if self.reverse:
-            return (ord('z') - ord('a')) if point == self.start else (ord(self.grid[i][j]) - ord('a'))
+            return ALT_MAX if self.is_start(node) else self.ascii_code(node)
         else:
-            return (ord('z') - ord('a')) if self.is_end(i, j) else (ord(self.grid[i][j]) - ord('a'))
+            return ALT_MAX if self.is_end(node) else self.ascii_code(node)
     
     def reachable(self, dep, arr):
         if self.reverse:
             dep, arr = arr, dep
-        return dep == self.start or self.altitude(arr) <= self.altitude(dep) + 1
+        return self.is_start(dep) or self.altitude(arr) <= self.altitude(dep) + 1
     
-    def neighbors(self, position):
-        i, j = position
+    def neighbors(self, node):
+        i, j = node
         return ((i+di, j+dj) for di, dj in DIRECTIONS if self.inside(i+di, j+dj) and self.reachable((i, j), (i+di, j+dj)))
     
     def coordinates(self):
@@ -88,4 +98,16 @@ class P12(Puzzle):
         self.reset()
         self.load_datas(filename)
         self.solution = self.bfs()
-        print(self)
+    
+
+p12 = P12(0)
+p12.test()
+print(p12)
+p12.validate()
+print(p12)
+
+p12two = P12(1)
+p12two.test()
+print(p12two)
+p12two.validate()
+print(p12two)
