@@ -4,17 +4,20 @@ S. Hoarau
 """
 
 import sys
-from functools import cmp_to_key
 from puzzle import Puzzle
 
-def cmp_int(left, right):
-    """Renvoie -1 si left < right 1 si left > right et 0 sinon"""
-    if left < right:
-        return -1
-    elif left > right:
-        return 1
+SMALLER = -1
+GREATER = 1
+EQUAL = 0
+
+def cmp_int(a, b):
+    """Renvoie SMALLER si a < b GREATER si a > b et EQUAL sinon"""
+    if a < b:
+        return SMALLER
+    elif a > b:
+        return GREATER
     else:
-        return 0
+        return EQUAL
         
 
 class Packet:
@@ -31,15 +34,15 @@ class Packet:
         if isinstance(arg_2, int):
             arg_2 = [arg_2]
         # here arg_1 and arg_2 are lists
-        narg_1, narg_2 = len(arg_1), len(arg_2)
-        for i in range(min(narg_1, narg_2)):
+        lenght_1, lenght_2 = len(arg_1), len(arg_2)
+        for i in range(min(lenght_1, lenght_2)):
             answer = self.__cmp_content(arg_1[i], arg_2[i])
             if answer != 0:
                 return answer
-        return cmp_int(narg_1, narg_2)
+        return cmp_int(lenght_1, lenght_2)
 
-    def __lt__(self, p):
-        return self.__cmp_content(self.content, p.content) == -1
+    def __lt__(self, packet):
+        return self.__cmp_content(self.content, packet.content) == SMALLER
 
 
 class P13(Puzzle):
@@ -47,7 +50,6 @@ class P13(Puzzle):
     def __init__(self, part):
         Puzzle.__init__(self, 13, part)
         self.packets = []
-        self.sorted_packets = []
 
     def load_datas(self, filename):
         with open(filename) as datas:
@@ -79,20 +81,21 @@ class P13(Puzzle):
                     self.solution += (i//2) + 1
         else:
             self.packets.sort()
-            index_1 = self.insert(Packet('[[2]]')) + 1
+            index_1 = self.insert(Packet('[[2]]')) + 1  # puzzle need index begins at 1 not 0
             index_2 = self.insert(Packet('[[6]]')) + 1
             self.solution = index_1 * index_2
 
 
 # -- MAIN
 
-def main():
-    mode = 0 if len(sys.argv) < 2 else int(sys.argv[1])
-    p13 = P13(mode)
-    p13.test()
-    print(p13)
-    p13.validate()
-    print(p13)
+p13one = P13(0)
+p13one.test()
+print(p13one)
+p13one.validate()
+print(p13one)
 
-if __name__ == "__main__":
-    main()
+p13two = P13(1)
+p13two.test()
+print(p13two)
+p13two.validate()
+print(p13two)
