@@ -34,12 +34,12 @@ class Packet:
         if isinstance(arg_2, int):
             arg_2 = [arg_2]
         # here arg_1 and arg_2 are lists
-        lenght_1, lenght_2 = len(arg_1), len(arg_2)
-        for i in range(min(lenght_1, lenght_2)):
+        length_1, length_2 = len(arg_1), len(arg_2)
+        for i in range(min(length_1, length_2)):
             answer = self.__cmp_content(arg_1[i], arg_2[i])
             if answer != 0:
                 return answer
-        return cmp_int(lenght_1, lenght_2)
+        return cmp_int(length_1, length_2)
 
     def __lt__(self, packet):
         return self.__cmp_content(self.content, packet.content) == SMALLER
