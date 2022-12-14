@@ -19,6 +19,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 11 : ✅ ❌ (j'ai galéré pour la 2e partie... merci Fab pour l'aide)
 - jour 12 : ✅ ✅
 - jour 13 : ✅ ✅
+- jour 14 : ✅ ✅
 
 
 ### Création du puzzle du jour $k$
