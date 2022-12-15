@@ -20,6 +20,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 12 : ✅ ✅
 - jour 13 : ✅ ✅
 - jour 14 : ✅ ✅
+- jour 15 : ✅ ✅ 
 
 
 ### Création du puzzle du jour $k$

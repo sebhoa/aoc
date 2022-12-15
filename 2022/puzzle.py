@@ -13,13 +13,13 @@ class Puzzle:
         """Chaque puzzle doit coder sa méthode de résolution"""
         pass
     
-    def test(self):
+    def test(self, *args):
         """Teste la résolution sur le petit fichier"""
-        self.solve(self.test_in)
+        self.solve(self.test_in, *args)
         
-    def validate(self):
+    def validate(self, *args):
         """Valide la solution sur le gros fichier"""
-        self.solve(self.validation_in)
+        self.solve(self.validation_in, *args)
     
     def __str__(self):
         part_test = ('One', 'Two')[self.part]
