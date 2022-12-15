@@ -42,7 +42,6 @@ class Sensor(Point):
         return f'Sensor({self.x}, {self.y}) -- {repr(self.beacon)} -- Radius: {self.radius}'
 
 
-
 class P15(Puzzle):
 
     PATTERN = re.compile(r'[-]?\d+')
@@ -58,17 +57,6 @@ class P15(Puzzle):
         self.sensors = {}
         self.beacons = {}
  
-    def aff(self):
-        for y in range(self.max_y + 1):
-            for x in range(self.min_x, self.max_x):
-                if (x, y) in self.sensors:
-                    print('S', end='')
-                elif (x, y) in self.beacons:
-                    print('B', end='')
-                else:
-                    print('.', end='')
-            print()
-
     def load_datas(self, filename):
         with open(filename) as datas:
             for data in datas.readlines():
@@ -82,6 +70,7 @@ class P15(Puzzle):
         self.beacons = {}
 
     def intersection(self, set_of_min_max):
+        """Réduit une liste triée d'intervalles pour garder des intervalles disjoints"""
         l_min_max = sorted(set_of_min_max)
         new_l = [l_min_max[0]]
         for i in range(1, len(l_min_max)):
@@ -97,6 +86,7 @@ class P15(Puzzle):
         return new_l
 
     def x_min_and_max(self, y0):
+        """Crée la liste des intervalles disjoints de x interdits pour la ligne y0"""
         set_of_min_max = set()
         for sensor in self.sensors.values():
             hauteur = abs(sensor.y - y0)
@@ -131,7 +121,7 @@ p_one.validate(2000000)
 print(p_one)
 print(time() - t)
 
-# t = time()
+t = time()
 p_two = P15(1)
 p_two.test(20)
 print(p_two)
