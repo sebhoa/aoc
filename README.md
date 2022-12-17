@@ -20,7 +20,10 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 12 : ✅ ✅
 - jour 13 : ✅ ✅
 - jour 14 : ✅ ✅
-- jour 15 : ✅ ✅ 
+- jour 15 : ✅ ✅
+- jour 16 : ❌ ❌ Pas trouvé !
+- jour 17 : ✅ ✅ Part Two : il faut exécuter le code pour trouver la fréquence en nombres de rocks (1720 qui donnent 2704 de hauteur, reste alors 1440 rocks qui donnent 2275) 
+   
 
 
 ### Création du puzzle du jour $k$
