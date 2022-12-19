@@ -135,15 +135,6 @@ class P18(Puzzle):
                 for face in cube.faces():
                     self.faces[face] = self.faces.get(face, 0) + 1
 
-    def border(self):
-        return (cube for cube in self.cubes.values() if cube.type == BORDER)
-
-    def outside(self):
-        return (cube for cube in self.cubes.values() if cube.type == OUTSIDE)
-
-    def inside(self):
-        return (cube for cube in self.cubes.values() if cube.type == INSIDE)
-
     def set_border(self):
         """Un parcours en largeur à partir des cubes lave pour déterminer les cubes frontière"""
         new_cubes = {}
