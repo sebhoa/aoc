@@ -23,7 +23,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 15 : ✅ ✅
 - jour 16 : ❌ ❌ Pas trouvé !
 - jour 17 : ✅ ✅ Part Two : il faut exécuter le code pour trouver la fréquence en nombres de rocks (1720 qui donnent 2704 de hauteur, reste alors 1440 rocks qui donnent 2275)
-- jour 18 : ✅ ✅ (Partie 2 laborieuse, code à revoir) 
+- jour 18 : ✅ ✅ (~~Partie 2 laborieuse, code à revoir~~modélisation revue : un type a été ajouté aux cubes... c'est propre now) 
    
 
 
