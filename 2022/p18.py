@@ -188,7 +188,6 @@ class P18(Puzzle):
         self.solution = sum(nb for nb in self.faces.values() if nb == 1)
 
 
-
 # -- MAIN
 
 p_one = P18(0)
