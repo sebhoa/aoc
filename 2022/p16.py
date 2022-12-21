@@ -4,7 +4,6 @@ S. Hoarau
 """
 
 import re
-from collections import deque
 from puzzle import Puzzle
 
 INF = float('inf')
@@ -135,7 +134,7 @@ class P16(Puzzle):
 
     def beam_search(self, n):
         releases = set()
-        generation = deque([self.initial])
+        generation = [self.initial]
         while len(generation) > 0:
             next_gen = []
             for cfg in generation:
