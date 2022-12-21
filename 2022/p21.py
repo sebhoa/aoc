@@ -7,7 +7,7 @@ import re
 from puzzle import Puzzle
 
 MATHS_OP = {'+': int.__add__, '-': int.__sub__, '*': int.__mul__, '/': int.__floordiv__}
-MATH_RES = {'+': int.__sub__, '-': int.__add__, '*': int.__floordiv__, '/': int.__mul__}
+MATHS_RES = {'+': int.__sub__, '-': int.__add__, '*': int.__floordiv__, '/': int.__mul__}
 
 class BinaryTree:
     """Arbre binaire modélisant un singe et ses _descendants_ : ceux dont il attend un nombre"""
@@ -53,25 +53,22 @@ class BinaryTree:
 
     def simplify(self, b):
         """Pour résoudre une équation ax = b, ou a + x = b, ou ..."""
-
         # cas x = b
         if self.monkey_name == 'humn':
             return b
 
         # cas où x est à gauche (x * a = b, x/a = b, x + a = b, x - a = b)
-        elif self.left.content('humn'):
-            num = self.right.eval()
-            return self.left.simplify(MATH_RES[self.math_info](integer, num))
+        elif self.left.contains('humn'):
+            a = self.right.eval()
+            return self.left.simplify(MATHS_RES[self.math_info](b, a))
         
-        # cas où x est à droite (ça change pour / et - du coup)
+        # cas où x est à droite (ça change pour / et - par ex. a / x = b -> x = a / b)
         else:
-            num = self.left.eval()
-            if self.math_info == '/':
-                return self.right.simplify(num // integer)
-            elif self.math_info == '-':
-                return self.right.simplify(num - integer)
+            a = self.left.eval()
+            if self.math_info in '-/':
+                return self.right.simplify(MATHS_OP[self.math_info](a, b))
             else:
-                return self.right.simplify(MATH_RES[self.math_info](integer, num))
+                return self.right.simplify(MATHS_RES[self.math_info](b, a))
 
 
 
