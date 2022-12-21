@@ -16,7 +16,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 8 : ✅ ✅ (bon je repasse les noms en anglais ^^)
 - jour 9 : ✅ ✅ 
 - jour 10 : ✅ ✅ 
-- jour 11 : ✅ ❌ (j'ai galéré pour la 2e partie... merci Fab pour l'aide)
+- jour 11 : ✅ ✅ (j'ai galéré pour la 2e partie... merci Fab pour l'aide)
 - jour 12 : ✅ ✅
 - jour 13 : ✅ ✅
 - jour 14 : ✅ ✅
@@ -26,6 +26,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 18 : ✅ ✅ (~~Partie 2 laborieuse, code à revoir~~modélisation revue : un type a été ajouté aux cubes... c'est propre now) 
 - jour 19 : ❌ ❌ Pas trouvé ! 
 - jour 20 : ✅ ✅  
+- jour 21 : ✅ ✅ Plus simple  
    
 
 
