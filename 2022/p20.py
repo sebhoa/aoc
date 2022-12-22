@@ -11,11 +11,11 @@ ENCRYPTION_KEY = 811589153
 
 class Node:
 
-    def __init__(self, val, order_to_move):
+    def __init__(self, val, initial_position):
         self.val = val
         self.next = self
         self.previous = self
-        self.order_to_move = order_to_move
+        self.id = initial_position
 
     def bye(self):
         """quitte la liste circulaire en reconnectant les restant"""
@@ -46,7 +46,7 @@ class Circular:
         node = self.start
         s = ''
         for _ in range(self.size):
-            s += f'{node.val} ({node.order_to_move}) '
+            s += f'{node.val} ({node.id}) '
             node = node.next
         return s
 
@@ -55,9 +55,9 @@ class Circular:
             self.insert_one(elt * self.key, i)
 
 
-    def insert_one(self, elt, order_to_move):
+    def insert_one(self, elt, initial_position):
         """l'insertion se fait à gauche du nœud entrée"""
-        node = Node(elt, order_to_move)
+        node = Node(elt, initial_position)
         if self.empty():
             self.start = node
         else:
@@ -66,7 +66,7 @@ class Circular:
 
     def reach_next_to_move(self, node_id):
         """Atteindre le prochain dans la liste à devoir bouger"""
-        while self.start.order_to_move != node_id:
+        while self.start.id != node_id:
             self.start = self.start.next
 
     def left(self, node_id):
