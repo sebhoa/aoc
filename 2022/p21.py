@@ -9,15 +9,15 @@ from puzzle import Puzzle
 MATHS_OP = {'+': int.__add__, '-': int.__sub__, '*': int.__mul__, '/': int.__floordiv__}
 MATHS_RES = {'+': int.__sub__, '-': int.__add__, '*': int.__floordiv__, '/': int.__mul__}
 
-class BinaryTree:
-    """Arbre binaire modélisant un singe et ses _descendants_ : ceux dont il attend un nombre"""
+class Expression:
+    """Arbre binaire modélisant l'expression arithmétique d'un singe et ses potes : ceux dont il attend un nombre"""
 
     def __init__(self, monkey_name=None, math_info=None, left=None, right=None):
         self.monkey_name = monkey_name
         self.math_info = math_info # un entier ou une opération parmi +, -, *, /
         if monkey_name is not None:
-            self.left = BinaryTree() if not isinstance(left, BinaryTree) else left
-            self.right = BinaryTree() if not isinstance(left, BinaryTree) else right
+            self.left = Expression() if not isinstance(left, Expression) else left
+            self.right = Expression() if not isinstance(left, Expression) else right
 
     def aff(self, tab=0):
         if not self.is_empty():
@@ -36,13 +36,6 @@ class BinaryTree:
     def is_leaf(self):
         return self.left.is_empty() and self.right.is_empty()
 
-    def eval(self):
-        """évalue l'arbre syntaxique ne contenant pas de variable ('humn') """
-        if self.is_leaf():
-            return int(self.math_info)
-        else:
-            return MATHS_OP[self.math_info](self.left.eval(), self.right.eval())
-    
     def contains(self, name):
         if self.is_empty():
             return False
@@ -51,6 +44,15 @@ class BinaryTree:
         else:
             return self.left.contains(name) or self.right.contains(name)
 
+    # -- Les 2 principales méthodes
+    # --
+    def eval(self):
+        """évalue l'arbre syntaxique ne contenant pas de variable ('humn') """
+        if self.is_leaf():
+            return int(self.math_info)
+        else:
+            return MATHS_OP[self.math_info](self.left.eval(), self.right.eval())
+    
     def simplify(self, b):
         """Pour résoudre une équation ax = b, ou a + x = b, ou ..."""
         # cas x = b
@@ -93,16 +95,16 @@ class P21(Puzzle):
                 if len(infos) > 0:
                     root, left, op, right = infos[0]
                     if left in self.trees and right in self.trees:
-                        self.trees[root] = BinaryTree(root, op, self.trees[left], self.trees[right])
+                        self.trees[root] = Expression(root, op, self.trees[left], self.trees[right])
                     else:
                         standby_monkeys.append((root, left, op, right))
                 else:
                     root, integer = P21.PATTERN_INT.findall(line.strip())[0] 
-                    self.trees[root] = BinaryTree(root, integer)
+                    self.trees[root] = Expression(root, integer)
         standby_monkeys.sort(key=lambda e: int(e[1] in self.trees) +  int(e[3] in self.trees))
         while len(standby_monkeys) > 0:
             root, left, op, right = standby_monkeys.pop()
-            self.trees[root] = BinaryTree(root, op, self.trees[left], self.trees[right])
+            self.trees[root] = Expression(root, op, self.trees[left], self.trees[right])
             standby_monkeys.sort(key=lambda e: int(e[1] in self.trees) +  int(e[3] in self.trees))
 
     def main_tree(self):

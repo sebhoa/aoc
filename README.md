@@ -26,7 +26,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 - jour 18 : ✅ ✅ (~~Partie 2 laborieuse, code à revoir~~modélisation revue : un type a été ajouté aux cubes... c'est propre now) 
 - jour 19 : ❌ ❌ Pas trouvé ! 
 - jour 20 : ✅ ✅  
-- jour 21 : ✅ ✅ Plus simple  
+- jour 21 : ✅ ✅ Plus facile   
    
 
 
