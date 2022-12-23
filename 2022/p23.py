@@ -22,11 +22,11 @@ ORTHOGONALS = N, S, W, E
 THREE = {N: (NW, N, NE), S: (SW, S, SE), E: (NE, E, SE), W: (NW, W, SW)}
 
 class Map:
+    """Regroupe l'information sur les positions des elves"""
 
     def __init__(self, map_informations):
         self.elves = {(i, j) for i, line in enumerate(map_informations) 
                                 for j, info in enumerate(line.strip()) if info == ELF}
-        self.first_id = 0
 
     def __str__(self):
         s = ''
@@ -72,7 +72,6 @@ class P23(Puzzle):
         Puzzle.__init__(self, 23, part)
         self.map = None
         self.first_id = 0
-        self.rounds = 10
 
     def load_datas(self, filename):
         with open(filename) as datas:
@@ -111,7 +110,7 @@ class P23(Puzzle):
             filename = args[0]
         self.load_datas(filename)
         if self.part == 0:
-            for _ in range(self.rounds):
+            for _ in range(10):
                 proposals, count_proposals = self.proposes()
                 self.update_positions(proposals, count_proposals)  
                 self.first_id = (self.first_id + 1) % 4          
@@ -130,12 +129,12 @@ class P23(Puzzle):
 
 # -- MAIN
 
-# p_one = P23(0)
+p_one = P23(0)
 
-# p_one.test()
-# print(p_one)
-# p_one.validate()
-# print(p_one)
+p_one.test()
+print(p_one)
+p_one.validate()
+print(p_one)
 
 p_two = P23(1)
 p_two.test()
