@@ -7,7 +7,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 ### Progression
 
 - jour 23 : ✅ ✅ Simple (on arrive au bout ^^)
-- jour 22 : ✅  Part II pas plus difficile mais plus fastidieuse... _damned_ le petit test passe mais pas la validation : galère à débugguer... il faut trouver quel est le mouvement sur le gros cube qui plante
+- jour 22 : ✅ ✅ Part II pas plus difficile mais plus fastidieuse
 - jour 21 : ✅ ✅ Plus facile
 - jour 20 : ✅ ✅  
 - jour 19 : ❌ ❌ (_beam search_ me donne pas l'optimale) 
