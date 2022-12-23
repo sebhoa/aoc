@@ -6,48 +6,29 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 
 ### Progression
 
-- jour 1 : ✅ ✅
-- jour 2 : ✅ ✅
-- jour 3 : ✅ ✅
-- jour 4 : ✅ ✅
-- jour 5 : ✅ ✅ (pénible sans regex)
-- jour 6 : ✅ ✅ 
-- jour 7 : ✅ ✅ (galère parce que je n'ai pas pensé que 2 répertoires pouvaient avoir le même nom)
-- jour 8 : ✅ ✅ (bon je repasse les noms en anglais ^^)
-- jour 9 : ✅ ✅ 
-- jour 10 : ✅ ✅ 
-- jour 11 : ✅ ✅ (j'ai galéré pour la 2e partie... merci Fab pour l'aide)
-- jour 12 : ✅ ✅
-- jour 13 : ✅ ✅
-- jour 14 : ✅ ✅
-- jour 15 : ✅ ✅
-- jour 16 : ✅ ✅ 
-- jour 17 : ✅ ✅ Part Two : il faut exécuter le code pour trouver la fréquence en nombres de rocks (1720 qui donnent 2704 de hauteur, reste alors 1440 rocks qui donnent 2275)
-- jour 18 : ✅ ✅ (~~Partie 2 laborieuse, code à revoir~~modélisation revue : un type a été ajouté aux cubes... c'est propre now) 
-- jour 19 : ❌ ❌ Pas trouvé ! 
-- jour 20 : ✅ ✅  
+- jour 23 : ✅ ✅ Simple (on arrive au bout ^^)
+- jour 22 : ✅  Part II pas plus difficile mais plus fastidieuse... _damned_ le petit test passe mais pas la validation : galère à débugguer... il faut trouver quel est le mouvement sur le gros cube qui plante
 - jour 21 : ✅ ✅ Plus facile
-- jour 22 : ✅  Part II pas plus difficile mais plus fastidieuse (_work in progress_)
-- jour 23 : ✅ ✅ Simple (on arrive au bout ^^)   
-   
-
-
-### Création du puzzle du jour $k$
-
-Un _pattern_ commun pour présenter les puzzles :
-
-```python
->>> pK = Pk()
-```
-### Résolution 
-
-Il y a 4 niveaux de résolution identifiées par le paramètre `part` de l'appel : `pk.solve(part)`
-
-- la partie I, sur le mini test (identifié par `part=0`)
-- la partie I sur les vraies données (`part=1` ; réponse du puzzle _Part One_) 
-- la partie II, sur le mini test (identifié par `part=2`)
-- la partie I sur les vraies données (`part=3`, réponse du puzzle _Part Two_) 
-
+- jour 20 : ✅ ✅  
+- jour 19 : ❌ ❌ (_beam search_ me donne pas l'optimale) 
+- jour 18 : ✅ ✅ (~~Partie 2 laborieuse, code à revoir~~modélisation revue : un type a été ajouté aux cubes... c'est propre now) 
+- jour 17 : ✅ ✅ Part Two : il faut exécuter le code pour trouver la fréquence en nombres de rocks (1720 qui donnent 2704 de hauteur, reste alors 1440 rocks qui donnent 2275)
+- jour 16 : ✅ ✅ 
+- jour 15 : ✅ ✅
+- jour 14 : ✅ ✅
+- jour 13 : ✅ ✅
+- jour 12 : ✅ ✅
+- jour 11 : ✅ ✅ (j'ai galéré pour la 2e partie... merci Fab pour l'aide)
+- jour 10 : ✅ ✅ 
+- jour 09 : ✅ ✅ 
+- jour 08 : ✅ ✅ (bon je repasse les noms en anglais ^^)
+- jour 07 : ✅ ✅ (galère parce que je n'ai pas pensé que 2 répertoires pouvaient avoir le même nom)
+- jour 06 : ✅ ✅ 
+- jour 05 : ✅ ✅ (pénible sans regex)
+- jour 04 : ✅ ✅
+- jour 03 : ✅ ✅
+- jour 02 : ✅ ✅
+- jour 01 : ✅ ✅
 
 ## 2021
 
