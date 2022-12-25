@@ -6,6 +6,7 @@ C'est parti. Comme d'habitude les premiers sont simples. Cette année tout dans 
 
 ### Progression
 
+- jour 24 : ✅ ✅ Surprenant et pas si simple si on ne pense pas en 3D 
 - jour 23 : ✅ ✅ Simple (on arrive au bout ^^)
 - jour 22 : ✅ ✅ Part II pas plus difficile mais plus fastidieuse
 - jour 21 : ✅ ✅ Plus facile
