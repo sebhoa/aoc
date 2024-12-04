@@ -22,10 +22,9 @@ class P4(Puzzle):
     def word_on_direction(self, word, i, j, direction):
         n = len(word)
         di, dj = direction
-        for k in range(n):
-            if not self.inside(i+k*di, j+k*dj) or self.grid[i+k*di][j+k*dj] != word[k]:
-                return False
-        return True
+        return all(self.inside(i+k*di, j+k*dj) and 
+                   self.grid[i+k*di][j+k*dj] == word[k]
+                   for k in range(n))
 
     def mas_positions(self):
         mas = set()
