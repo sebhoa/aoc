@@ -14,18 +14,7 @@ class Laby:
         self.walls = walls
         self.height = height
         self.width = width
-
-    def coords(self):
-        return ((i, j) for i in range(self.height) for j in range(self.width))
-    
-    def __str__(self):
-        s = ''
-        for i in range(self.height):
-            for j in range(self.width):
-                s += WALL if (i, j) in self.walls else FREE
-            s += '\n'
-        return s
-    
+        
     def inside(self, position):
         i, j = position
         return 0 <= i < self.height and 0 <= j < self.width
@@ -59,28 +48,31 @@ class Guard:
         return i+di, j+dj
             
     def forward(self, with_loop_test):
-        """move guard one step forward and return True if guard is still inside the area
+        """move guard one step (forward or turn right) and return True if guard is still inside the area
         if with_loop_test is True, a ghost is created with a modified version of the laby
-        then guard ask the ghost to patrol... il a loop is detected, position of the added
+        then guard ask the ghost to patrol... if a loop is detected, position of the added
         wall is memorized
         """
         new_position = self.have_a_look_ahead()
-        if self.laby.inside(new_position):
-            if self.laby.is_free(new_position):
-                if with_loop_test:
-                    self.laby.build_wall(new_position)
-                    position, direction = self.initial
-                    ghost = Ghost(self.laby, position, direction)
-                    if ghost.patrol():
-                        self.obstructions.add(new_position)
-                    self.laby.break_wall(new_position)
-                self.memory.add(new_position)
-                self.position = new_position
-            else:
-                self.turn()
-            return True
-        else:
+        
+        if not self.laby.inside(new_position):
             return False
+        
+        if not self.laby.is_free(new_position):
+            self.turn()
+            return True
+            
+        if with_loop_test:
+            self.laby.build_wall(new_position)
+            position, direction = self.initial
+            ghost = Ghost(self.laby, position, direction)
+            if ghost.patrol():
+                self.obstructions.add(new_position)
+            self.laby.break_wall(new_position)
+
+        self.memory.add(new_position)
+        self.position = new_position
+        return True
 
     def patrol(self, with_loop_test=False):
         inside = True
@@ -99,19 +91,20 @@ class Ghost(Guard):
 
     def forward(self):
         new_position = self.have_a_look_ahead()
-        if self.laby.inside(new_position):
-            if self.laby.is_free(new_position):
-                self.position = new_position
-                if (self.position, self.direction) in self.memory:
-                    return True, True
-                else:
-                    self.memory.add((self.position, self.direction))
-                    return True, False
-            else:
-                self.turn()
-                return True, False
-        else:
+        
+        if not self.laby.inside(new_position):
             return False, False
+            
+        if not self.laby.is_free(new_position):
+            self.turn()
+            return True, False
+            
+        self.position = new_position
+        if (self.position, self.direction) in self.memory:
+            return True, True
+        else:
+            self.memory.add((self.position, self.direction))
+            return True, False
 
     def patrol(self):
         inside, loop = True, False
