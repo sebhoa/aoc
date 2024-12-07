@@ -49,9 +49,8 @@ class Guard:
             
     def forward(self, with_loop_test):
         """move guard one step (forward or turn right) and return True if guard is still inside the area
-        if with_loop_test is True, a ghost is created with a modified version of the laby
-        then guard ask the ghost to patrol... if a loop is detected, position of the added
-        wall is memorized
+        if with_loop_test is True, a ghost is created with a modified version of the laby ; then guard 
+        ask the ghost to patrol... if a loop is detected, position of the added wall is memorized
         """
         new_position = self.have_a_look_ahead()
         
@@ -80,9 +79,8 @@ class Guard:
             inside = self.forward(with_loop_test)
 
 class Ghost(Guard):
-    """comme un garde : fait une patrouille dans *son* labyrinthe ; patrouille
-    qui se termine si le fantome sort de la zone ou si on détecte une boucle
-    il y a une boucle lorsqu'un couple (position, direction) est présente dans la mémoire
+    """A ghost is like a guard except that he memorize position and direction
+    so he can detect a loop during patrol
     """
 
     def __init__(self, laby, position, direction):
@@ -107,6 +105,7 @@ class Ghost(Guard):
             return True, False
 
     def patrol(self):
+        """for a ghost patrol's goal is to detect a loop"""
         inside, loop = True, False
         while inside and not loop:
             inside, loop = self.forward()
