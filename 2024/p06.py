@@ -1,6 +1,5 @@
 WALL = '#'
 FREE = '.'
-OBSTACLE = 'O'
 UP = (-1, 0)
 RIGHT = (0, 1)
 DOWN = (1, 0)
@@ -11,33 +10,35 @@ TURN_RIGHT = {UP: RIGHT, RIGHT: DOWN, DOWN: LEFT, LEFT: UP}
 
 class Laby:
 
-    def __init__(self, grid):
-        self.grid = grid
-        self.height = len(grid)
-        self.width = len(grid[0])
+    def __init__(self, walls, height, width):
+        self.walls = walls
+        self.height = height
+        self.width = width
 
-    def copy(self):
-        return Laby([line.copy() for line in self.grid])
+    def coords(self):
+        return ((i, j) for i in range(self.height) for j in range(self.width))
     
     def __str__(self):
-        return '\n'.join(' '.join(line) for line in self.grid)
+        s = ''
+        for i in range(self.height):
+            for j in range(self.width):
+                s += WALL if (i, j) in self.walls else FREE
+            s += '\n'
+        return s
     
     def inside(self, position):
         i, j = position
         return 0 <= i < self.height and 0 <= j < self.width
     
     def is_free(self, position):
-        i, j = position
-        return self.grid[i][j] != WALL
+        return position not in self.walls
     
-    def wall(self, position):
-        i, j = position
-        self.grid[i][j] = WALL
+    def build_wall(self, position):
+        self.walls.add(position)
 
-    def obstacle(self, position):
-        i, j = position
-        self.grid[i][j] = OBSTACLE
-
+    def break_wall(self, position):
+        self.walls.remove(position)
+    
 
 class Guard:
 
@@ -56,28 +57,23 @@ class Guard:
         i, j = self.position
         di, dj = self.direction
         return i+di, j+dj
-        
-    def loop_test(self):
-        """si on peut avancer, on fait une copie du labyrinthe, on place un mur
-        à la nouvelle position, on lance un fantome sur ce labyrinthe
-        si on détecte une boucle, on ajoute la position à un ensemble
-        """
-        new_position = self.have_a_look_ahead()
-        if self.laby.inside(new_position) and self.laby.is_free(new_position):
-            new_laby = self.laby.copy()
-            new_laby.wall(new_position)
-            position, direction = self.initial
-            ghost = Ghost(new_laby, position, direction)
-            if ghost.patrol():
-                self.obstructions.add(new_position)
-    
+            
     def forward(self, with_loop_test):
-        """move guard one step forward and return True if guard is still inside the area"""
-        if with_loop_test:
-            self.loop_test()
+        """move guard one step forward and return True if guard is still inside the area
+        if with_loop_test is True, a ghost is created with a modified version of the laby
+        then guard ask the ghost to patrol... il a loop is detected, position of the added
+        wall is memorized
+        """
         new_position = self.have_a_look_ahead()
         if self.laby.inside(new_position):
             if self.laby.is_free(new_position):
+                if with_loop_test:
+                    self.laby.build_wall(new_position)
+                    position, direction = self.initial
+                    ghost = Ghost(self.laby, position, direction)
+                    if ghost.patrol():
+                        self.obstructions.add(new_position)
+                    self.laby.break_wall(new_position)
                 self.memory.add(new_position)
                 self.position = new_position
             else:
@@ -132,16 +128,17 @@ class P6(Puzzle):
         self.guard = None
         
     def load(self, filename):
-        grid = []
+        walls = set()
         with open(filename) as datas:
             for i, line in enumerate(datas):
-                grid.append([])
                 for j in range(len(line)-1):
-                    grid[-1].append(line[j])
-                    if line[j] in DIRECTIONS:
+                    value = line[j]
+                    if value in DIRECTIONS:
                         guard_position = i, j
                         guard_direction = DIRECTIONS[line[j]]
-        self.laby = Laby(grid)
+                    elif value == WALL:
+                        walls.add((i, j))
+        self.laby = Laby(walls, i+1, j+1)
         self.guard = Guard(self.laby, guard_position, guard_direction)
 
     def solve(self, filename):
@@ -152,9 +149,3 @@ class P6(Puzzle):
         else:
             self.guard.patrol(with_loop_test=True)
             self.solution = len(self.guard.obstructions)
-
-    def show(self):
-        """dessine l'état de la map avec les obstacles possibles posés"""
-        for position in self.guard.obstructions:
-            self.laby.obstacle(position)
-        print(self.laby)
