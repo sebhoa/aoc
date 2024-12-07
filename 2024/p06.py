@@ -7,46 +7,6 @@ DOWN = (1, 0)
 LEFT = (0, -1)
 DIRECTIONS = {'^': UP, '>': RIGHT, 'v': DOWN, '<': LEFT}
 TURN_RIGHT = {UP: RIGHT, RIGHT: DOWN, DOWN: LEFT, LEFT: UP}
-TURN_LEFT = {UP: LEFT, LEFT: DOWN, DOWN: RIGHT, RIGHT: UP}
-LABELS = {UP: '^', RIGHT: '>', DOWN: 'v', LEFT: '<'}
-
-
-class Ghost:
-    """comme un garde : fait une patrouille dans *son* labyrinthe ; patrouille
-    qui se termine si le fantome sort de la zone ou si on détecte une boucle
-    il y a une boucle lorsqu'un couple (position, direction) est présente dans la mémoire
-    """
-
-    def __init__(self, laby, position, direction):
-        self.laby = laby
-        self.position = position
-        self.direction = direction
-        self.memory = {(position, direction)}
-
-    def turn(self):
-        self.direction = TURN_RIGHT[self.direction]
-    
-    def forward(self):
-        new_position = self.laby.new_position(self.position, self.direction)
-        if self.laby.inside(new_position):
-            if self.laby.is_free(new_position):
-                self.position = new_position
-                if (self.position, self.direction) in self.memory:
-                    return True, True
-                else:
-                    self.memory.add((self.position, self.direction))
-                    return True, False
-            else:
-                self.turn()
-                return True, False
-        else:
-            return False, False
-
-    def patrol(self):
-        inside, loop = True, False
-        while inside and not loop:
-            inside, loop = self.forward()
-        return loop
 
 
 class Laby:
@@ -66,11 +26,6 @@ class Laby:
         i, j = position
         return 0 <= i < self.height and 0 <= j < self.width
     
-    def new_position(self, position, direction):
-        i, j = position
-        di, dj = direction
-        return i+di, j+dj
-
     def is_free(self, position):
         i, j = position
         return self.grid[i][j] != WALL
@@ -93,16 +48,21 @@ class Guard:
         self.memory = {self.position}
         self.obstructions = set()
         self.initial = position, direction
-        
+
     def turn(self):
         self.direction = TURN_RIGHT[self.direction]
 
+    def have_a_look_ahead(self):
+        i, j = self.position
+        di, dj = self.direction
+        return i+di, j+dj
+        
     def loop_test(self):
         """si on peut avancer, on fait une copie du labyrinthe, on place un mur
         à la nouvelle position, on lance un fantome sur ce labyrinthe
         si on détecte une boucle, on ajoute la position à un ensemble
         """
-        new_position = self.laby.new_position(self.position, self.direction)
+        new_position = self.have_a_look_ahead()
         if self.laby.inside(new_position) and self.laby.is_free(new_position):
             new_laby = self.laby.copy()
             new_laby.wall(new_position)
@@ -115,7 +75,7 @@ class Guard:
         """move guard one step forward and return True if guard is still inside the area"""
         if with_loop_test:
             self.loop_test()
-        new_position = self.laby.new_position(self.position, self.direction)
+        new_position = self.have_a_look_ahead()
         if self.laby.inside(new_position):
             if self.laby.is_free(new_position):
                 self.memory.add(new_position)
@@ -130,6 +90,38 @@ class Guard:
         inside = True
         while inside:
             inside = self.forward(with_loop_test)
+
+class Ghost(Guard):
+    """comme un garde : fait une patrouille dans *son* labyrinthe ; patrouille
+    qui se termine si le fantome sort de la zone ou si on détecte une boucle
+    il y a une boucle lorsqu'un couple (position, direction) est présente dans la mémoire
+    """
+
+    def __init__(self, laby, position, direction):
+        Guard.__init__(self, laby, position, direction)
+        self.memory = {(position, direction)}
+
+    def forward(self):
+        new_position = self.have_a_look_ahead()
+        if self.laby.inside(new_position):
+            if self.laby.is_free(new_position):
+                self.position = new_position
+                if (self.position, self.direction) in self.memory:
+                    return True, True
+                else:
+                    self.memory.add((self.position, self.direction))
+                    return True, False
+            else:
+                self.turn()
+                return True, False
+        else:
+            return False, False
+
+    def patrol(self):
+        inside, loop = True, False
+        while inside and not loop:
+            inside, loop = self.forward()
+        return loop
 
             
 class P6(Puzzle):
@@ -162,17 +154,7 @@ class P6(Puzzle):
             self.solution = len(self.guard.obstructions)
 
     def show(self):
+        """dessine l'état de la map avec les obstacles possibles posés"""
         for position in self.guard.obstructions:
             self.laby.obstacle(position)
         print(self.laby)
-
-def main():
-    for part in (0, 1):
-        pb = P6(part)
-        pb.test()
-        print(pb)
-        pb.validate()
-        print(pb)
-
-if __name__ == "__main__":
-    main() 
