@@ -68,7 +68,7 @@ class P10(Puzzle):
         self.ends = ends
         self.trails = {}
     
-    def path_from(self, end):
+    def reverse_path_from(self, end):
         paths = [[(end, self.map.grid[end])]]
         while paths != []:
             path = paths.pop()
@@ -88,7 +88,7 @@ class P10(Puzzle):
     
     def paths_to_start(self):
         for end in self.ends:
-            self.path_from(end)
+            self.reverse_path_from(end)
             
     def solve(self, filename):
         self.load(filename)
