@@ -4,6 +4,7 @@ Cette année ça va être "quand j'ai le temps :smile:"
 
 ### Progression
 
+- jour 11 : ✅ ✅ bon le tout POO est peut-être un poils _too much_ ici :smile:, mais le puzzle est facile 
 - jour 10 : ✅ ✅ :smile: satisfaisant quand le passage du _part one_ au _part two_ se fait en ajoutant 1 attribut à un des objets  
 - jour 09 : ✅ ✅ pas satisfait de mon modèle, c'est lent et ça n'a pas vraiment de sens ou de logique :cry: 
 - jour 08 : ✅ ✅ comme jour 7 : facile et montrable aux L1 
