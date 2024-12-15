@@ -4,6 +4,7 @@ Cette année ça va être "quand j'ai le temps :smile:"
 
 ### Progression
 
+- jour 13 : ✅ ✅ Un jour facile pour compenser hier ? :smile: 
 - jour 12 : ✅ ✅ Oh la la j'ai tellement galéré sur la partie 2 :cry: 
 - jour 11 : ✅ ✅ bon le tout POO est peut-être un poils _too much_ ici :smile:, mais le puzzle est facile 
 - jour 10 : ✅ ✅ :smile: satisfaisant quand le passage du _part one_ au _part two_ se fait en ajoutant 1 attribut à un des objets  
