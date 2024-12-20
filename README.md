@@ -4,6 +4,7 @@ Cette année ça va être "quand j'ai le temps :smile:"
 
 ### Progression
 
+- jour 15 : ✅ ✅ J'avais pas bien capté toutes les subtilités du déplacement de boites en P2... le code doit certainement pouvoir être plus propre. Je n'ai pas modélisé le concept de boites (boites simples, boites combo ?... ), y'a sûrement moyen de modéliser ça proprement
 - jour 14 : ✅ ✅ Excellent le coup de l'_easter egg_... je me doutais bien qu'il devait y avoir un sapin dessiné mais je n'avais aucune idée de quel sapin ni comment le trouver... merci Steph qui m'a parlé de sa solution ^^  
 - jour 13 : ✅ ✅ Un jour facile pour compenser hier ? :smile: 
 - jour 12 : ✅ ✅ Oh la la j'ai tellement galéré sur la partie 2 :cry: 
