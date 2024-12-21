@@ -4,6 +4,7 @@ Cette année ça va être "quand j'ai le temps :smile:"
 
 ### Progression
 
+- jour 19 : ✅ ✅ pas très difficile non plus celui-là, un peu de mémoïzation :smile:
 - jour 18 : ✅ ✅ celui là est simple... en tout cas pas exigeant donc l'algo naïf suffit pour la P2
 - jour 17 : ✅ ❌ Pour l'instant je n'ai testé que la force brute pour la P2... ça ne passe pas apparemment :smile: 
 - jour 16 : ✅ ✅ Pas terrible ma solution : c'est pas super propre, c'est lent... :cry: mais bon un peu la flemme de réfléchir à quelque chose de mieux (j'ai encore 3 jours de retard) 
