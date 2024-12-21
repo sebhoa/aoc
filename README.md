@@ -4,6 +4,8 @@ Cette année ça va être "quand j'ai le temps :smile:"
 
 ### Progression
 
+- jour 18 : ✅ ✅ celui là est simple... en tout cas pas exigeant donc l'algo naïf suffit pour la P2
+- jour 17 : ✅ ❌ Pour l'instant je n'ai testé que la force brute pour la P2... ça ne passe pas apparemment :smile: 
 - jour 16 : ✅ ✅ Pas terrible ma solution : c'est pas super propre, c'est lent... :cry: mais bon un peu la flemme de réfléchir à quelque chose de mieux (j'ai encore 3 jours de retard) 
 - jour 15 : ✅ ✅ J'avais pas bien capté toutes les subtilités du déplacement de boites en P2... le code doit certainement pouvoir être plus propre. Je n'ai pas modélisé le concept de boites (boites simples, boites combo ?... ), y'a sûrement moyen de modéliser ça proprement
 - jour 14 : ✅ ✅ Excellent le coup de l'_easter egg_... je me doutais bien qu'il devait y avoir un sapin dessiné mais je n'avais aucune idée de quel sapin ni comment le trouver... merci Steph qui m'a parlé de sa solution ^^  
